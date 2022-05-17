@@ -11,8 +11,7 @@ This demo analyses some data on emissions of various pollutants from Our World i
 
 ## The analysis
 
-This analysis is _really quick_: we download the OWID data, selecting a
-few columns and giving them tidier names, and we pass it immediately onto Observable JS.
+This analysis is *really quick*: we download the OWID data, selecting a few columns and giving them tidier names, and we pass it immediately onto Observable JS.
 
 ```{r}
 #| label: import
@@ -32,8 +31,8 @@ pollution <-
 names(pollution) <- c("country", "year", "co_tpyr", "co_index")
 pollution
 ```
-Here's what the data looks like. To pass it on to Observable JS, we call `ojs_define`. We also pass a list of the countries in the data on separately so
-that we can use it for a dropdown menu.
+
+Here's what the data looks like. To pass it on to Observable JS, we call `ojs_define`. We also pass a list of the countries in the data on separately so that we can use it for a dropdown menu.
 
 ```{r}
 #| label: inspect
@@ -45,9 +44,7 @@ The names that we use in `ojs_define` are now available below.
 
 ## The visualisation
 
-Now, let's chart the data using
-[Observable Plot](https://observablehq.com/@observablehq/plot)! And to make things a little trickier, let's throw a dropdown menu for the country in,
-courtesy of [Observable Inputs](https://observablehq.com/@observablehq/inputs). 
+Now, let's chart the data using [Observable Plot](https://observablehq.com/@observablehq/plot)! And to make things a little trickier, let's throw a dropdown menu for the country in, courtesy of [Observable Inputs](https://observablehq.com/@observablehq/inputs).
 
 ```{ojs}
 //| label: pollutionplot
@@ -84,7 +81,7 @@ The above example shows that we can have 'reactive' plots at the language level:
 
 Newer versions of Observable Plot support tooltips and hover styling, although it seems that the version embedded with Quarto doesn't. Other kinds of interactivity don't seem to work.
 
-That said, we can write any kind of JavaScript in an OJS cell, or even import and reuse a chart from a notebook published on <observablehq.com>, provided it's marked with an open source licence. We can even combine this approach with Observable Inputs.
+That said, we can write any kind of JavaScript in an OJS cell, or even import and reuse a chart from a notebook published on \<observablehq.com\>, provided it's marked with an open source licence. We can even combine this approach with Observable Inputs.
 
 For example, [here's one from d3](https://observablehq.com/@d3/bar-chart-transitions), who are also the makers of Observable Plot:
 
