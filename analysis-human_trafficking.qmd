@@ -25,11 +25,18 @@ ct <- ct %>%
 ct$typeOfExploitConcatenated[ct$typeOfExploitConcatenated ==
                                "Forced labour;Sexual exploitation;Combined sexual and labour exploitation"] <-"Combined sexual and labour exploitation"
 
-ct %>%
+ctp1 <- ct %>%
   replace_na(list(typeOfExploitConcatenated = 'unknown')) %>%
   ggplot(aes(x = typeOfExploitConcatenated, fill = gender)) +
   geom_bar(position = "dodge", width = .7) +
-  theme(axis.text.x = element_text(angle=20))
+  theme(axis.text.x = element_text(angle=15)) +
+  coord_flip()
 
+ctp1
+
+# Forced labour;Other not required?
+```
+
+```{r}
 
 ```
