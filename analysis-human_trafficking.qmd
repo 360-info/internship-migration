@@ -66,7 +66,7 @@ ct1 <- ct %>%
   drop_na(CountryOfExploitation)
 ct1
 
-ct1a <- merge(ctcountries,ct1, by="citizenship")
+ct1a <- merge(ctcountries,ct1, by="citizenship",all = TRUE)
 
 ct1a <- ct1a %>%
   mutate(CountryFrom = Country,
@@ -87,7 +87,7 @@ ct1a <- ct1a %>%
 ```{r}
 
 # match the country of exploitation code with country names and coordinates
-ct1b <- merge(excountries,ct1a, by="CountryOfExploitation")
+ct1b <- merge(excountries,ct1a, by="CountryOfExploitation", all = TRUE)
 
 ct1b <- ct1b %>%
   mutate(CountryOfExploitted = Country,
