@@ -1,8 +1,8 @@
 ---
 title: "analysis - human trafficking"
 author: "Ruimin Lin - 28757599"
-date: '2022-05-17'
-output: html_document
+code-fold: true
+theme: style/article.scss
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(naniar)
 ```
-
 
 ```{r}
 ct <- read_csv("data/The Global Dataset 14 Apr 2020.csv")
@@ -34,4 +33,3 @@ ct %>%
 
 
 ```
-
