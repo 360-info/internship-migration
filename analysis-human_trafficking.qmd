@@ -48,11 +48,13 @@ ctp1 +
 ```{r}
 #ctcountries stands for citizenship countries
 ctcountries <- read_csv("data/countries_codes_and_coordinates.csv") %>%
-  mutate(citizenship = `Alpha-2 code`)
+  mutate(citizenship = `Alpha-2 code`) %>%
+  distinct(`Alpha-2 code`, .keep_all = TRUE)
 
 #excountries stands for countries the victim are exploitted to 
 excountries <- read_csv("data/countries_codes_and_coordinates.csv") %>%
-  mutate(CountryOfExploitation = `Alpha-2 code`)
+  mutate(CountryOfExploitation = `Alpha-2 code`) %>%
+  distinct(`Alpha-2 code`, .keep_all = TRUE)
 
 ```
 
@@ -67,7 +69,7 @@ ct1 <- ct %>%
   drop_na(CountryOfExploitation)
 ct1
 
-ct1a <- merge(ct1, ctcountries, by="citizenship")
+ct1a <- left_join(ct1, ctcountries)
 
 ct1a <- ct1a %>%
   mutate(CountryFrom = Country,
@@ -88,7 +90,8 @@ ct1a <- ct1a %>%
 ```{r}
 
 # match the country of exploitation code with country names and coordinates
-ct1b <- merge(ct1a, excountries, by="CountryOfExploitation")
+ct1b <- left_join(ct1a, excountries)
+
 
 ct1b <- ct1b %>%
   mutate(CountryOfExploitted = Country,
