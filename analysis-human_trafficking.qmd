@@ -9,6 +9,7 @@ theme: style/article.scss
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(naniar)
+library(gganimate)
 ```
 
 ```{r}
@@ -26,17 +27,84 @@ ct$typeOfExploitConcatenated[ct$typeOfExploitConcatenated ==
                                "Forced labour;Sexual exploitation;Combined sexual and labour exploitation"] <-"Combined sexual and labour exploitation"
 
 ctp1 <- ct %>%
-  replace_na(list(typeOfExploitConcatenated = 'unknown')) %>%
+  drop_na(typeOfExploitConcatenated) %>%
   ggplot(aes(x = typeOfExploitConcatenated, fill = gender)) +
   geom_bar(position = "dodge", width = .7) +
   theme(axis.text.x = element_text(angle=15)) +
+  theme_bw() +
   coord_flip()
 
 ctp1
 
-# Forced labour;Other not required?
+# `Forced labour;Other` & NA not required?
+```
+
+```{r}
+ctp1 +
+  facet_wrap(~majorityStatus)
+# should we include NA?
+```
+
+```{r}
+#ctcountries stands for citizenship countries
+ctcountries <- read_csv("data/countries_codes_and_coordinates.csv") %>%
+  mutate(citizenship = `Alpha-2 code`)
+
+#excountries stands for countries the victim are exploitted to 
+excountries <- read_csv("data/countries_codes_and_coordinates.csv") %>%
+  mutate(CountryOfExploitation = `Alpha-2 code`)
+```
+
+```{r}
+# match the citizenship country code with country names and coordinates
+ct1 <- ct %>%
+  select(yearOfRegistration,
+         gender,
+         citizenship,
+         typeOfExploitConcatenated,
+         CountryOfExploitation) %>%
+  drop_na(CountryOfExploitation)
+ct1
+
+ct1a <- merge(ctcountries,ct1, by="citizenship")
+
+ct1a <- ct1a %>%
+  mutate(CountryFrom = Country,
+         LatitudeFrom = `Latitude (average)`,
+         LongitudeFrom = `Longitude (average)`)
+
+ct1a <- ct1a %>%
+  select(citizenship,
+         CountryFrom,
+         LatitudeFrom,
+         LongitudeFrom,
+         yearOfRegistration,
+         gender,
+         typeOfExploitConcatenated,
+         CountryOfExploitation)
 ```
 
 ```{r}
 
+# match the country of exploitation code with country names and coordinates
+ct1b <- merge(excountries,ct1a, by="CountryOfExploitation")
+
+ct1b <- ct1b %>%
+  mutate(CountryOfExploitted = Country,
+         LatitudeOfExploitation = `Latitude (average)`,
+         LongitudeOfExploitation = `Longitude (average)`)
+
+ct1b <- ct1b %>%
+  select(citizenship,
+         CountryFrom,
+         LatitudeFrom,
+         LongitudeFrom,
+         yearOfRegistration,
+         gender,
+         typeOfExploitConcatenated,
+         CountryOfExploitation,
+         CountryOfExploitted,
+         LatitudeOfExploitation,
+         LongitudeOfExploitation
+         )
 ```
