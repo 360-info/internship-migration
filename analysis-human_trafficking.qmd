@@ -10,7 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(naniar)
 library(gganimate)
+library(plotly)
 ```
+
+-   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
+-   The coordinate data for countries is obtained from [Tadas Tamošauskas](https://gist.github.com/tadast/8827699).
 
 ```{r}
 ct <- read_csv("data/The Global Dataset 14 Apr 2020.csv")
@@ -26,23 +30,46 @@ ct <- ct %>%
 ct$typeOfExploitConcatenated[ct$typeOfExploitConcatenated ==
                                "Forced labour;Sexual exploitation;Combined sexual and labour exploitation"] <-"Combined sexual and labour exploitation"
 
+ctEx <- ct %>%  # dataset for type of exploits
+  select(gender, typeOfExploitConcatenated) %>%
+  drop_na(typeOfExploitConcatenated) %>%
+  count(gender, typeOfExploitConcatenated) %>%
+  group_by(typeOfExploitConcatenated) %>%
+  mutate(percent = round((n/sum(n) * 100),2))
+
+
+ctEx
+
+```
+
+### Features of the victim Plot 1 
+
+```{r}
 ctp1 <- ct %>%
   drop_na(typeOfExploitConcatenated) %>%
   ggplot(aes(x = typeOfExploitConcatenated, fill = gender)) +
   geom_bar(position = "dodge", width = .7) +
-  theme(axis.text.x = element_text(angle=15)) +
   theme_bw() +
   coord_flip()
 
 ctp1
 
-# `Forced labour;Other` & NA not required?
 ```
 
+
+
+
 ```{r}
-ctp1 +
+
+ctp1a <- ct %>%
+  drop_na(majorityStatus, typeOfExploitConcatenated) %>%
+  ggplot(aes(x = typeOfExploitConcatenated, fill = gender)) +
+  geom_bar(position = "dodge", width = .7) +
+  theme_bw() +
+  coord_flip() +
   facet_wrap(~majorityStatus)
-# should we include NA?
+
+ggplotly(ctp1a)
 ```
 
 ```{r}
@@ -87,6 +114,7 @@ ct1a <- ct1a %>%
          CountryOfExploitation)
 ```
 
+
 ```{r}
 
 # match the country of exploitation code with country names and coordinates
@@ -112,3 +140,6 @@ ct1b <- ct1b %>%
          LongitudeOfExploitation
          )
 ```
+
+
+
