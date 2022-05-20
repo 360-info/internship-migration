@@ -28,21 +28,11 @@ ct <- ct %>%
 
 ```{r}
 ct$typeOfExploitConcatenated[ct$typeOfExploitConcatenated ==
-                               "Forced labour;Sexual exploitation;Combined sexual and labour exploitation"] <-"Combined sexual and labour exploitation"
-
-ctEx <- ct %>%  # dataset for type of exploits
-  select(gender, typeOfExploitConcatenated) %>%
-  drop_na(typeOfExploitConcatenated) %>%
-  count(gender, typeOfExploitConcatenated) %>%
-  group_by(typeOfExploitConcatenated) %>%
-  mutate(percent = round((n/sum(n) * 100),2))
-
-
-ctEx
+                               "Forced labour;Sexual exploitation;Combined sexual and labour exploitation"] <-"Sexual and labour exploitation"
 
 ```
 
-### Features of the victim Plot 1 
+### Features of the victim Plot v1 
 
 ```{r}
 ctp1 <- ct %>%
@@ -57,7 +47,7 @@ ctp1
 ```
 
 
-
+### Features of the victim Plot v2
 
 ```{r}
 
@@ -71,6 +61,52 @@ ctp1a <- ct %>%
 
 ggplotly(ctp1a)
 ```
+
+### Features of the victim Plot v3
+
+```{r}
+
+ctEx <- ct %>%  # dataset for type of exploits
+  select(gender, typeOfExploitConcatenated) %>%
+  drop_na(typeOfExploitConcatenated) %>%
+  count(gender, typeOfExploitConcatenated) %>%
+  group_by(typeOfExploitConcatenated) %>%
+  mutate(pct = round((n/sum(n)),4)) %>%
+  arrange(desc(n)) %>%
+  head(10)
+
+ctEx
+```
+
+```{r}
+ctp1b <- ctEx %>%
+  mutate(Label = paste0(round(pct*100,2), "%")) %>%
+  ggplot(aes(x = typeOfExploitConcatenated, y = n,
+             fill = gender)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = Label),
+            position = position_dodge(width = 0.9),
+            size = 3) +
+  theme_bw()
+
+
+ctp1b +
+  coord_flip()
+```
+
+
+```{r}
+ctEx %>%
+  ggplot(aes(x = typeOfExploitConcatenated, y = n,
+             fill = gender, label = scales::percent(pct))) +
+  geom_col(position = "dodge") +
+  geom_text(position = position_dodge(width = 0.9),
+            size = 3) +
+  theme_bw() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+
 
 ```{r}
 #ctcountries stands for citizenship countries
