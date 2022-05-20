@@ -32,7 +32,7 @@ ct$typeOfExploitConcatenated[ct$typeOfExploitConcatenated ==
 
 ```
 
-### Features of the victim Plot v1 
+### Features of the victim Plot v1
 
 ```{r}
 ctp1 <- ct %>%
@@ -45,7 +45,6 @@ ctp1 <- ct %>%
 ctp1
 
 ```
-
 
 ### Features of the victim Plot v2
 
@@ -67,7 +66,7 @@ ggplotly(ctp1a)
 ```{r}
 
 ctEx <- ct %>%  # dataset for type of exploits
-  select(gender, typeOfExploitConcatenated) %>%
+  select(gender, typeOfExploitConcatenated, majorityStatus) %>%
   drop_na(typeOfExploitConcatenated) %>%
   count(gender, typeOfExploitConcatenated) %>%
   group_by(typeOfExploitConcatenated) %>%
@@ -80,7 +79,7 @@ ctEx
 
 ```{r}
 ctp1b <- ctEx %>%
-  mutate(Label = paste0(round(pct*100,2), "%")) %>%
+  mutate(Label = paste0(n, "(",round(pct*100,2), "%", ")")) %>%
   ggplot(aes(x = typeOfExploitConcatenated, y = n,
              fill = gender)) +
   geom_col(position = "dodge") +
@@ -91,22 +90,43 @@ ctp1b <- ctEx %>%
 
 
 ctp1b +
-  coord_flip()
+  theme(axis.text.x = element_text(size = 10, angle = 8))
 ```
-
 
 ```{r}
-ctEx %>%
+ctEx1 <- ct %>%  # dataset for type of exploits
+  select(gender, typeOfExploitConcatenated, majorityStatus) %>%
+  drop_na(typeOfExploitConcatenated) %>%
+  drop_na(majorityStatus) %>%
+  count(gender, typeOfExploitConcatenated, majorityStatus) %>%
+  group_by(typeOfExploitConcatenated) %>%
+  mutate(pct = round((n/sum(n)),4)) %>%
+  arrange(desc(n)) %>%
+  head(16)
+ctEx1
+
+ctp1c <- ctEx1 %>%
   ggplot(aes(x = typeOfExploitConcatenated, y = n,
-             fill = gender, label = scales::percent(pct))) +
-  geom_col(position = "dodge") +
-  geom_text(position = position_dodge(width = 0.9),
-            size = 3) +
-  theme_bw() +
-  scale_y_continuous(labels = scales::percent)
+             group = gender,fill = gender, alpha = majorityStatus)) +
+  geom_col(position = "dodge", colour = "darkgrey", width = 0.7) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 10, angle = 8))
+
+ctp1c
+
 ```
 
+```{r}
+testp <- ctEx1 %>%
+  ggplot(aes(x = typeOfExploitConcatenated, y = round(pct*100,2),
+             group = gender,fill = gender, alpha = majorityStatus)) +
+  geom_col(position = "dodge", colour = "darkgrey") +
+  theme_minimal() +
+  coord_flip()
 
+ggplotly(testp)
+
+```
 
 ```{r}
 #ctcountries stands for citizenship countries
@@ -150,7 +170,6 @@ ct1a <- ct1a %>%
          CountryOfExploitation)
 ```
 
-
 ```{r}
 
 # match the country of exploitation code with country names and coordinates
@@ -176,6 +195,3 @@ ct1b <- ct1b %>%
          LongitudeOfExploitation
          )
 ```
-
-
-
