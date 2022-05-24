@@ -11,7 +11,8 @@ library(tidyverse)
 library(naniar)
 library(gganimate)
 library(plotly)
-library(viridis)
+library(countrycode)
+library(parsetR)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
@@ -100,7 +101,10 @@ ctEx1 <- ct %>%  # dataset for type of exploits
   drop_na(typeOfExploitConcatenated, majorityStatus) %>%
   count(gender, typeOfExploitConcatenated, majorityStatus) %>%
   group_by(typeOfExploitConcatenated) %>%
-  mutate(pct = round((n/sum(n)),4))
+  mutate(pct = round((n/sum(n)),4)) %>%
+  arrange(desc(n)) %>%
+  head(16)
+
 ctEx1
 
 ctp1c <- ctEx1 %>%
@@ -116,7 +120,7 @@ ctp1c
 
 ```{r}
 
-colourp = c(Male = "#8fce00", Female = "#f66b0e")
+colourp = c(Male = "#f6ce55", Female = "#990000")
 
 testp <- ctEx1 %>%
   ggplot(aes(x = typeOfExploitConcatenated, 
@@ -125,12 +129,52 @@ testp <- ctEx1 %>%
                alpha = majorityStatus),position = "dodge", colour = "darkgrey", width = 0.7) +
   scale_fill_manual(values = colourp) +
   theme_minimal() +
-  coord_flip()
+  coord_flip() +
+  ylab("Percentage") +
+  xlab("Type of Exploits") +
+  ggtitle("Percentage of Victim's Gender Group")
 
 
 ggplotly(testp)
 
 ```
+
+
+```{r}
+ct2 <- ct %>%
+  select(yearOfRegistration,
+         gender,
+         ageBroad, citizenship,
+         CountryOfExploitation)%>%
+  mutate(yearOfRegistration = as.character(yearOfRegistration))
+
+ct2a <- ct2 %>%
+  mutate(citizenship = countrycode(citizenship, origin = 'iso2c',
+                                   destination = 'country.name'),
+         CountryOfExploitation = countrycode(CountryOfExploitation, origin = 'iso2c',
+                                             destination = 'country.name')) %>%
+  drop_na(citizenship, CountryOfExploitation)
+
+ct2a
+```
+
+
+```{r}
+ct2b <- ct2a %>%
+  group_by(citizenship, CountryOfExploitation)%>%
+  summarize(counts = n()) %>%
+  ungroup() %>%
+  arrange(desc(counts)) %>%
+  head(10)
+
+ct2b1 <- ct2b %>%
+  rename(CountryOfOrigin = citizenship)
+
+parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'), 
+       value = htmlwidgets::JS("function(d){return d.counts}"), 
+       tension = 0.5)
+```
+
 
 ```{r}
 #ctcountries stands for citizenship countries
