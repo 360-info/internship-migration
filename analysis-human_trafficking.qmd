@@ -11,6 +11,7 @@ library(tidyverse)
 library(naniar)
 library(gganimate)
 library(plotly)
+library(viridis)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
@@ -96,13 +97,10 @@ ctp1b +
 ```{r}
 ctEx1 <- ct %>%  # dataset for type of exploits
   select(gender, typeOfExploitConcatenated, majorityStatus) %>%
-  drop_na(typeOfExploitConcatenated) %>%
-  drop_na(majorityStatus) %>%
+  drop_na(typeOfExploitConcatenated, majorityStatus) %>%
   count(gender, typeOfExploitConcatenated, majorityStatus) %>%
   group_by(typeOfExploitConcatenated) %>%
-  mutate(pct = round((n/sum(n)),4)) %>%
-  arrange(desc(n)) %>%
-  head(16)
+  mutate(pct = round((n/sum(n)),4))
 ctEx1
 
 ctp1c <- ctEx1 %>%
@@ -117,12 +115,18 @@ ctp1c
 ```
 
 ```{r}
+
+colourp = c(Male = "#8fce00", Female = "#f66b0e")
+
 testp <- ctEx1 %>%
-  ggplot(aes(x = typeOfExploitConcatenated, y = round(pct*100,2),
-             group = gender,fill = gender, alpha = majorityStatus)) +
-  geom_col(position = "dodge", colour = "darkgrey") +
+  ggplot(aes(x = typeOfExploitConcatenated, 
+             y = round(pct,2))) +
+  geom_col(aes(fill = gender, group = typeOfExploitConcatenated, 
+               alpha = majorityStatus),position = "dodge", colour = "darkgrey", width = 0.7) +
+  scale_fill_manual(values = colourp) +
   theme_minimal() +
   coord_flip()
+
 
 ggplotly(testp)
 
