@@ -146,10 +146,10 @@ ctEx1 <- ctEx1 %>%
                  sep = '-'))
 ctEx1
 
-colourGP = c("Male-Adult" = "#36802d",
-             "Male-Minor" = "#c9df8a",
+colourGP = c("Male-Adult" = "#ffc249",
+             "Male-Minor" = "#ffeac1",
              "Female-Adult" = "#ff3212",
-             "Female-Minor" = "#ff9787")
+             "Female-Minor" = "#ff7b7b")
 
 testp1 <- ctEx1 %>%
   ggplot(aes(x = typeOfExploitConcatenated, 
