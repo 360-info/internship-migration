@@ -121,7 +121,7 @@ ctp1c
 ```{r}
 
 colourp = c(Male = "#f6ce55", Female = "#990000")
-
+# create a new column for gender and majoritystatus together
 testp <- ctEx1 %>%
   ggplot(aes(x = typeOfExploitConcatenated, 
              y = round(pct,2))) +
@@ -137,6 +137,34 @@ testp <- ctEx1 %>%
 
 ggplotly(testp)
 
+```
+
+```{r}
+ctEx1 <- ctEx1 %>%
+  mutate(genderGroup = 
+           paste(gender, majorityStatus,
+                 sep = '-'))
+ctEx1
+
+colourGP = c("Male-Adult" = "#36802d",
+             "Male-Minor" = "#c9df8a",
+             "Female-Adult" = "#ff3212",
+             "Female-Minor" = "#ff9787")
+
+testp1 <- ctEx1 %>%
+  ggplot(aes(x = typeOfExploitConcatenated, 
+             y = round(pct,2))) +
+  geom_col(aes(fill = genderGroup, 
+               group = typeOfExploitConcatenated),
+           position = "dodge", colour = "white", width = 0.7) +
+  theme_minimal() +
+  scale_fill_manual(values = colourGP) +
+  coord_flip() +
+  ylab("Percentage") +
+  xlab("Type of Exploits") +
+  ggtitle("Percentage of Victim's Gender Group")
+
+testp1
 ```
 
 
@@ -173,6 +201,13 @@ ct2b1 <- ct2b %>%
 parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'), 
        value = htmlwidgets::JS("function(d){return d.counts}"), 
        tension = 0.5)
+```
+
+```{r}
+ggparallel(vars = list("CountryOfOrigin",
+                       "CountryOfExploitation"),
+           data = ct2b1,
+           method = "parset")
 ```
 
 
