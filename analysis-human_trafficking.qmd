@@ -13,6 +13,8 @@ library(gganimate)
 library(plotly)
 library(countrycode)
 library(parsetR)
+# devtools::install_github("davidsjoberg/ggsankey")
+library(ggsankey)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
@@ -187,6 +189,11 @@ ct2a
 ```
 
 
+
+
+
+
+
 ```{r}
 ct2b <- ct2a %>%
   group_by(citizenship, CountryOfExploitation)%>%
@@ -203,12 +210,23 @@ parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'),
        tension = 0.5)
 ```
 
+
 ```{r}
-ggparallel(vars = list("CountryOfOrigin",
-                       "CountryOfExploitation"),
-           data = ct2b1,
-           method = "parset")
+ct2b1 %>%
+  ggplot(aes(y = counts,
+             axis1 = CountryOfOrigin,
+             axis2 = CountryOfExploitation)) +
+  geom_alluvium(aes(fill = CountryOfExploitation,
+                    alpha = counts)) +
+  geom_stratum(
+    aes(fill = CountryOfExploitation),
+    colour = NA) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  theme_bw()
 ```
+
+
 
 
 ```{r}
