@@ -13,8 +13,8 @@ library(gganimate)
 library(plotly)
 library(countrycode)
 library(parsetR)
-# devtools::install_github("davidsjoberg/ggsankey")
-library(ggsankey)
+library(ggalluvial)
+library(RColorBrewer)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
@@ -208,11 +208,19 @@ ct2b1 <- ct2b %>%
 parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'), 
        value = htmlwidgets::JS("function(d){return d.counts}"), 
        tension = 0.5)
+
 ```
 
 
 ```{r}
-ct2b1 %>%
+t1 <- grobTree(textGrob("Origin Country",
+                        gp=gpar(fontsize=13, fontface="bold")))
+
+t2 <- grobTree(textGrob("Destination Country",
+                        gp=gpar(fontsize=13, fontface="bold")))
+palette1 <- brewer.pal(10, "Set3")
+
+fd <- ct2b1 %>%
   ggplot(aes(y = counts,
              axis1 = CountryOfOrigin,
              axis2 = CountryOfExploitation)) +
@@ -221,9 +229,16 @@ ct2b1 %>%
   geom_stratum(
     aes(fill = CountryOfExploitation),
     colour = NA) +
+  scale_fill_manual(values = palette1) +
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
-  theme_bw()
+  guides(fill="none") +
+  annotation_custom(t1,xmin=1,xmax=1,ymin=21500,ymax=Inf) +
+  annotation_custom(t2,xmin=2,xmax=2,ymin=21500,ymax=Inf) +
+  ggtitle("Top 10 Routes of Human Trafficking Victims") +
+  theme_void()
+
+fd
 ```
 
 
