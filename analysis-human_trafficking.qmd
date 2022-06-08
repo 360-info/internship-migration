@@ -15,6 +15,7 @@ library(countrycode)
 library(parsetR)
 library(ggalluvial)
 library(RColorBrewer)
+library(themes360info)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
@@ -158,7 +159,7 @@ testp1 <- ctEx1 %>%
              y = round(pct,2))) +
   geom_col(aes(fill = genderGroup, 
                group = typeOfExploitConcatenated),colour = "white", width = 0.7) +
-  theme_minimal() +
+  theme_360() +
   scale_fill_manual(values = colourGP) +
   coord_flip() +
   ylab("Percentage") +
@@ -215,10 +216,10 @@ parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'),
 
 ```{r}
 t1 <- grobTree(textGrob("Origin Country",
-                        gp=gpar(fontsize=13, fontface="bold")))
+                        gp=gpar(fontsize=12, fontface="bold")))
 
 t2 <- grobTree(textGrob("Destination Country",
-                        gp=gpar(fontsize=13, fontface="bold")))
+                        gp=gpar(fontsize=12, fontface="bold")))
 
 palette1 <- c("#88CCEE", "#CC6677", "#7C9473", "#B66353",
               "#3896C4", "#FFDA66", "#55AD89", "#848282",
@@ -236,17 +237,18 @@ fd <- ct2b1 %>%
   scale_fill_manual(values = palette1) +
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
-  guides(fill="none",
-         alpha = guide_legend(
-           title = "No. of Victims Reported"
-         )) +
+  guides(fill="none") +
   annotation_custom(t1,xmin=1,xmax=1,ymin=21500,ymax=Inf) +
   annotation_custom(t2,xmin=2,xmax=2,ymin=21500,ymax=Inf) +
-  ggtitle("Top 10 Routes of Human Trafficking Victims") +
+  ylab("Number of Victims") +
+  labs(alpha = "No. of Victims Reported",
+       title = "Top 10 Routes of Human Trafficking Victims",
+       subtitle = "Reported case from 2002 to 2019") +
+  theme_360() +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank(),
-        panel.background = element_blank()) +
-  ylab("Number of Victims")
+        panel.background = element_blank(),
+        legend.title=element_text(size=10))
 
 fd
 ```
