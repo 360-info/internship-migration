@@ -231,9 +231,11 @@ t2 <- grobTree(textGrob("Destination Country",
 
 palette1 <- c("#88CCEE", "#CC6677", "#7C9473", "#B66353",
               "#3896C4", "#FFDA66", "#55AD89", "#848282",
-              "#B4E197", "#000000", "#6699CC", "#888888")
+              "#B4E197")
 
-Okabe_Ito <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000", "#888888")
+Okabe_Ito <- c("#E69F00", "#56B4E9", "#CC79A7", "#F0E442",
+               "#0072B2", "#D55E00", "#55AD89", "#848282",
+               "#B4E197")
 
 fd <- ct2b1 %>%
   ggplot(aes(y = counts,
@@ -244,9 +246,10 @@ fd <- ct2b1 %>%
   geom_stratum(
     aes(fill = CountryOfExploitation),
     colour = NA) +
-  scale_fill_manual(values = palette1) +
+  scale_fill_manual(values = Okabe_Ito) +
   geom_text(stat = "stratum",
-            aes(label = after_stat(stratum))) +
+            aes(label = after_stat(stratum)),
+            family = "body360info") +
   guides(fill="none",
          alpha = "none") +
   scale_x_continuous(breaks = NULL) +
@@ -273,7 +276,9 @@ fd
 
 save_360plot(fd, "out/figures/victimflows.png",
              shape = "photo-portrait")
+
 ```
+
 
 ```{r}
 #ct2b2 <- ct2b1 %>%
