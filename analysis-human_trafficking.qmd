@@ -34,7 +34,7 @@ ct <- ct %>%
 
 ```{r}
 ct$typeOfExploitConcatenated[ct$typeOfExploitConcatenated ==
-                               "Forced labour;Sexual exploitation;Combined sexual and labour exploitation"] <-"Sexual and labour exploitation"
+                               "Forced labour;Sexual exploitation;Combined sexual and labour exploitation"] <- "Sexual and labour exploitation"
 
 ```
 
@@ -146,40 +146,50 @@ ggplotly(testp)
 ```{r}
 ctEx1 <- ctEx1 %>%
   mutate(genderGroup = 
-           paste(gender, majorityStatus,
-                 sep = '-'))
+           paste(gender, tolower(majorityStatus),
+                 sep = ' '))
 ctEx1
 
-colourGP = c("Male-Adult" = "#ffc249",
-             "Male-Minor" = "#ffeac1",
-             "Female-Adult" = "#ff3212",
-             "Female-Minor" = "#ff7b7b")
+colourGP = c("Male adult" = "#ffc249",
+             "Male minor" = "#ffeac1",
+             "Female adult" = "#ff3212",
+             "Female minor" = "#ff7b7b")
 
 testp1 <- ctEx1 %>%
   ggplot(aes(x = typeOfExploitConcatenated, 
              y = round(pct,2),
              label = scales::percent(pct))) +
   geom_col(aes(fill = genderGroup, 
-               group = typeOfExploitConcatenated),colour = "white", width = 0.7) +
+               group = genderGroup),
+           position = position_fill(reverse = TRUE),
+           colour = "white",
+           width = 0.7) +
   theme_360() +
   scale_fill_manual(values = colourGP) +
   scale_y_continuous(labels = scales::percent) +
+  scale_x_discrete(labels = c("Sexual and labour exploitation" = "Sexual and\nlabour exploitation")) +
   coord_flip() +
   ylab("Percentage") +
   xlab("Type of Exploits") +
-  labs(title = "Distribution of Human Trafficking Victims",
-       subtitle = "Reported case from 2002 to 2019 ",
+  labs(title = toupper("Distribution of Victims"),
+       subtitle = toupper("From reported human trafficking cases 2002-2019 "),
        caption = paste(
          "**CHART:** Ruimin Lin, James Goldie, 360info",
          "**DATA:** Counter Trafficking Data Collaborative",
-         sep = "<br>"),
-       fill='Gender Groups')
+         sep = "<br>")) +
+  theme(legend.position = "top",
+        legend.direction = "horizontal",
+        legend.title = element_blank(),
+        panel.grid.major.y = element_blank()) +
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))
 
 testp1
 
 save_360plot(testp1, "out/figures/victimdistributions.png",
              shape = "sdtv-landscape")
 ```
+
+
 
 
 ```{r}
@@ -225,18 +235,17 @@ parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'),
 
 
 ```{r}
-t1 <- grobTree(textGrob("Origin Country",
-                        gp=gpar(fontsize=12, fontface="bold")))
+t1 <- grobTree(textGrob("Origin\nCountry",
+                        gp=gpar(fontsize=13, fontface="bold",
+                                fontfamily = "body360info")))
 
-t2 <- grobTree(textGrob("Destination Country",
-                        gp=gpar(fontsize=12, fontface="bold")))
+t2 <- grobTree(textGrob("Destination\nCountry",
+                        gp=gpar(fontsize=13, fontface="bold",
+                                fontfamily = "body360info")))
 
-palette1 <- c("#88CCEE", "#CC6677", "#7C9473", "#B66353",
-              "#3896C4", "#FFDA66", "#55AD89", "#848282",
-              "#B4E197")
-
-Okabe_Ito <- c("#E69F00", "#56B4E9", "#CC79A7", "#F0E442",
-               "#0072B2", "#D55E00", "#55AD89", "#848282",
+# part of colour codes refer to https://thenode.biologists.com/data-visualization-with-flying-colors/research/
+Okabe_Ito <- c("#D55E00", "#56B4E9", "#CC79A7", "#CC79A7",
+               "#0072B2", "#E69F00", "#55AD89", "#848282",
                "#B4E197")
 
 fd <- ct2b1 %>%
@@ -250,21 +259,23 @@ fd <- ct2b1 %>%
     colour = NA) +
   scale_fill_manual(values = Okabe_Ito) +
   geom_text(stat = "stratum",
-            aes(label = after_stat(stratum)),
+            aes(label = after_stat(stratum),
+                fontface = 2),
+            colour = "#FFFFFF",
             family = "body360info") +
   guides(fill="none",
          alpha = "none") +
   scale_x_continuous(breaks = NULL) +
   scale_y_continuous(labels = label_number(suffix = " K", scale = 1e-3)) +
   scale_alpha_continuous(range = c(0.2, 0.7)) +
-  annotation_custom(t1,xmin=1,xmax=1,ymin=21500,ymax=Inf) +
-  annotation_custom(t2,xmin=2,xmax=2,ymin=21500,ymax=Inf) +
+  annotation_custom(t1,xmin=1,xmax=1,ymin=21200,ymax=Inf) +
+  annotation_custom(t2,xmin=2,xmax=2,ymin=21200,ymax=Inf) +
   ylab("Number of Victims") +
-  labs(title = "Human Trafficking Victim Flows",
-       subtitle = paste(
-         "Top 10 routes of human trafficking victims,",
-         "from reported cases 2002-2019.",
-         sep = "\n"),
+  labs(title = toupper("Human Trafficking Victim Flows"),
+       subtitle = toupper(paste(
+         "Top 10 routes of human trafficking victims from reported cases",
+         "2002-2019",
+         sep = "\n")),
        caption = paste(
          "**CHART:** Ruimin Lin, James Goldie, 360info",
          "**DATA:** Counter Trafficking Data Collaborative",
@@ -280,6 +291,7 @@ save_360plot(fd, "out/figures/victimflows.png",
              shape = "photo-portrait")
 
 ```
+
 
 
 ```{r}
@@ -363,4 +375,8 @@ save_360plot(fd, "out/figures/victimflows.png",
 #         )
 ```
 
+
+```{r}
+
+```
 
