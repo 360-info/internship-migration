@@ -157,11 +157,13 @@ colourGP = c("Male-Adult" = "#ffc249",
 
 testp1 <- ctEx1 %>%
   ggplot(aes(x = typeOfExploitConcatenated, 
-             y = round(pct,2))) +
+             y = round(pct,2),
+             label = scales::percent(pct))) +
   geom_col(aes(fill = genderGroup, 
                group = typeOfExploitConcatenated),colour = "white", width = 0.7) +
   theme_360() +
   scale_fill_manual(values = colourGP) +
+  scale_y_continuous(labels = scales::percent) +
   coord_flip() +
   ylab("Percentage") +
   xlab("Type of Exploits") +
