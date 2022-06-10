@@ -14,8 +14,9 @@ library(plotly)
 library(countrycode)
 library(parsetR)
 library(ggalluvial)
-library(RColorBrewer)
 library(themes360info)
+library(scales)
+library(ggtext)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
@@ -164,11 +165,18 @@ testp1 <- ctEx1 %>%
   coord_flip() +
   ylab("Percentage") +
   xlab("Type of Exploits") +
-  labs(fill='Gender Groups') + 
-  ggtitle("Distribution of Human Trafficking Victims Exploitted",
-          subtitle = "Reported case from 2002 to 2019 ")
+  labs(title = "Distribution of Human Trafficking Victims",
+       subtitle = "Reported case from 2002 to 2019 ",
+       caption = paste(
+         "**CHART:** Ruimin Lin, James Goldie, 360info",
+         "**DATA:** Counter Trafficking Data Collaborative",
+         sep = "<br>"),
+       fill='Gender Groups')
 
 testp1
+
+save_360plot(testp1, "out/figures/victimdistributions.png",
+             shape = "sdtv-landscape")
 ```
 
 
@@ -225,6 +233,8 @@ palette1 <- c("#88CCEE", "#CC6677", "#7C9473", "#B66353",
               "#3896C4", "#FFDA66", "#55AD89", "#848282",
               "#B4E197", "#000000", "#6699CC", "#888888")
 
+Okabe_Ito <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000", "#888888")
+
 fd <- ct2b1 %>%
   ggplot(aes(y = counts,
              axis1 = CountryOfOrigin,
@@ -237,20 +247,32 @@ fd <- ct2b1 %>%
   scale_fill_manual(values = palette1) +
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
-  guides(fill="none") +
+  guides(fill="none",
+         alpha = "none") +
+  scale_x_continuous(breaks = NULL) +
+  scale_y_continuous(labels = label_number(suffix = " K", scale = 1e-3)) +
+  scale_alpha_continuous(range = c(0.2, 0.7)) +
   annotation_custom(t1,xmin=1,xmax=1,ymin=21500,ymax=Inf) +
   annotation_custom(t2,xmin=2,xmax=2,ymin=21500,ymax=Inf) +
   ylab("Number of Victims") +
-  labs(alpha = "No. of Victims Reported",
-       title = "Top 10 Routes of Human Trafficking Victims",
-       subtitle = "Reported case from 2002 to 2019") +
+  labs(title = "Human Trafficking Victim Flows",
+       subtitle = paste(
+         "Top 10 routes of human trafficking victims,",
+         "from reported cases 2002-2019.",
+         sep = "\n"),
+       caption = paste(
+         "**CHART:** Ruimin Lin, James Goldie, 360info",
+         "**DATA:** Counter Trafficking Data Collaborative",
+         sep = "<br>")) +
   theme_360() +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank(),
-        panel.background = element_blank(),
-        legend.title=element_text(size=10))
+        panel.background = element_blank())
 
 fd
+
+save_360plot(fd, "out/figures/victimflows.png",
+             shape = "photo-portrait")
 ```
 
 ```{r}
