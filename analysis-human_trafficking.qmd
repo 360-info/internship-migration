@@ -17,6 +17,7 @@ library(ggalluvial)
 library(themes360info)
 library(scales)
 library(ggtext)
+library(forcats)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
@@ -148,7 +149,14 @@ ctEx1 <- ctEx1 %>%
   mutate(genderGroup = 
            paste(gender, tolower(majorityStatus),
                  sep = ' '))
-ctEx1
+ctEx1 <- ctEx1 %>%
+  group_by(genderGroup) %>%
+  mutate(typeOfExploitConcatenated = fct_reorder(typeOfExploitConcatenated, 
+                                                 pct)) %>%
+  ungroup()
+
+ctEx1 <- ctEx1 %>%
+  mutate(genderGroup = fct_reorder(genderGroup, -pct))
 
 colourGP = c("Male adult" = "#ffc249",
              "Male minor" = "#ffeac1",
