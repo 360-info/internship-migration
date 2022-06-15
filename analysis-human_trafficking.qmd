@@ -187,6 +187,7 @@ testp1
 
 save_360plot(testp1, "out/figures/victimdistributions.png",
              shape = "sdtv-landscape")
+
 ```
 
 
@@ -244,9 +245,11 @@ t2 <- grobTree(textGrob("Destination\nCountry",
                                 fontfamily = "body360info")))
 
 # part of colour codes refer to https://thenode.biologists.com/data-visualization-with-flying-colors/research/
-Okabe_Ito <- c("#D55E00", "#56B4E9", "#CC79A7", "#CC79A7",
+Okabe_Ito <- c("#D55E00", "#56B4E9", "#CC79A7", "#DDD723",
                "#0072B2", "#E69F00", "#55AD89", "#848282",
                "#B4E197")
+# country of citizenship
+# country of exploitation
 
 fd <- ct2b1 %>%
   ggplot(aes(y = counts,
