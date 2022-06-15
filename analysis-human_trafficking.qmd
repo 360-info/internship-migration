@@ -323,7 +323,7 @@ fd <- ct2b1 %>%
   ylab("Number of Victims") +
   labs(title = toupper("Human Trafficking Victim Flows"),
        subtitle = toupper(paste(
-         "Top 10 routes of human trafficking victims from reported cases",
+         "10 Most common routes of human trafficking victims from reported cases",
          "2002-2019",
          sep = "\n")),
        caption = paste(
