@@ -158,6 +158,15 @@ ctEx1 <- ctEx1 %>%
 ctEx1 <- ctEx1 %>%
   mutate(genderGroup = fct_reorder(genderGroup, -pct))
 
+
+excount <- ct %>%  # dataset for type of exploits
+  select(gender, typeOfExploitConcatenated, majorityStatus) %>%
+  drop_na(typeOfExploitConcatenated) %>%
+  group_by(typeOfExploitConcatenated) %>%
+  count(typeOfExploitConcatenated) %>%
+  arrange(desc(n)) %>%
+  head(6)
+
 colourGP = c("Male adult" = "#ffc249",
              "Male minor" = "#ffeac1",
              "Female adult" = "#ff3212",
@@ -175,7 +184,37 @@ testp1 <- ctEx1 %>%
   theme_360() +
   scale_fill_manual(values = colourGP) +
   scale_y_continuous(labels = scales::percent) +
-  scale_x_discrete(labels = c("Sexual and labour exploitation" = "Sexual and\nlabour exploitation")) +
+  scale_x_discrete(labels = c("Sexual and labour exploitation" = 
+  paste0(
+    "Sexual and\nlabour exploitation\n", 
+    "(n = ",
+    excount$n[which(excount$typeOfExploitConcatenated==
+                      "Sexual and labour exploitation")], ")"),
+  "Sexual exploitation" = 
+    paste0(
+      "Sexual exploitation\n",
+      "(n = ",
+      excount$n[which(excount$typeOfExploitConcatenated==
+                      "Sexual exploitation")],
+      ")"),
+  "Forced labour" = 
+    paste0("Forced labour\n",
+    "(n = ",
+    excount$n[which(excount$typeOfExploitConcatenated==
+                      "Forced labour")],
+    ")"),
+  "Other" = 
+    paste0("Other\n",
+    "(n = ",
+    excount$n[which(excount$typeOfExploitConcatenated==
+                      "Other")],
+                      ")"),
+  "Forced marriage" = 
+    paste0("Forced marriage\n",
+    "(n = ",
+    excount$n[which(excount$typeOfExploitConcatenated==
+                      "Forced marriage")],
+    ")"))) +
   coord_flip() +
   ylab("Percentage") +
   xlab("Type of Exploits") +
@@ -244,11 +283,11 @@ parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'),
 
 
 ```{r}
-t1 <- grobTree(textGrob("Origin\nCountry",
+t1 <- grobTree(textGrob("Country of\nCitizenship",
                         gp=gpar(fontsize=13, fontface="bold",
                                 fontfamily = "body360info")))
 
-t2 <- grobTree(textGrob("Destination\nCountry",
+t2 <- grobTree(textGrob("Country of\nExploitation",
                         gp=gpar(fontsize=13, fontface="bold",
                                 fontfamily = "body360info")))
 
