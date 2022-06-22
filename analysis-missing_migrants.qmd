@@ -9,6 +9,7 @@ theme: style/article.scss
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(themes360info)
+library(leaflet)
 ```
 
 - The missing migrants data is obtained from [Missing Migrants Project](https://missingmigrants.iom.int/).
@@ -19,8 +20,53 @@ missingMG
 ```
 
 
+```{r}
+missingMG <- missingMG %>%
+  mutate_at(vars(8:14),
+            funs(ifelse(is.na(.),0,.)))
+missingMG
+
+# Converting NA values to 0, from columns `Number of Dead` to `Number of Children`. 
+```
+
+```{r}
+
+missingMG$Coordinates <- 
+  str_extract_all(missingMG$Coordinates, "(?<=\\().+?(?=\\))") %>%
+  str_split(" ", 2)
+
+
+missingMG <- missingMG %>%
+  drop_na(Coordinates) %>%
+  mutate(Coordinates = sapply(Coordinates, toString)) %>%
+  separate(Coordinates,
+           c("lon", "lat"),
+           ",")
+
+missingMG <- missingMG %>%
+  drop_na(lon, lat) %>%
+  mutate(lon = as.double(lon),
+         lat = as.double(lat))
+
+missingMGrecent <- 
+  missingMG %>%
+  filter(`Incident year` == 2020)
+```
+
+
+```{r}
+leaflet(missingMGrecent) %>%
+  addProviderTiles("Esri") %>%
+  addMarkers(lng = ~lon,
+             lat = ~lat) 
+
+#shapefile from http://thematicmapping.org/downloads/world_borders.php
+```
+
 
 ```{r}
 
 ```
+
+
 
