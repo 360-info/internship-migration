@@ -21,7 +21,7 @@ library(forcats)
 ```
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
--   The coordinate data for countries is obtained from [Tadas Tamošauskas](https://gist.github.com/tadast/8827699).
+
 
 ```{r}
 ct <- read_csv("data/The Global Dataset 14 Apr 2020.csv")
