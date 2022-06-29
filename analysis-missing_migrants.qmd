@@ -46,7 +46,8 @@ missingMG <- missingMG %>%
 missingMG <- missingMG %>%
   drop_na(lon, lat) %>%
   mutate(lon = as.double(lon),
-         lat = as.double(lat))
+         lat = as.double(lat),
+         `Incident year` = as.character(`Incident year`))
 
 missingMGrecent <- 
   missingMG %>%
@@ -64,9 +65,36 @@ leaflet(missingMGrecent) %>%
 ```
 
 
+#### cause of death
+
 ```{r}
+missingMG1 <- missingMG %>%
+  select(`Incident year`,
+         `Region of Incident`,
+         `Total Number of Dead and Missing`) %>%
+  group_by(`Incident year`, `Region of Incident`) %>%
+  summarise(n())
+  
+```
+
+```{r}
+missingMG1 %>%
+  ggplot(aes(x = `Incident year`,
+             y = `Region of Incident`,
+             fill = `n()`)) +
+  geom_tile() +
+  geom_text(aes(label = `n()`)) +
+  scale_fill_gradient(low = "white", high = "red") +
+  theme_minimal()
 
 ```
 
+
+```{r}
+missingMG %>%
+  ggplot(aes(x = `Reported Month`,
+             y = `Total Number of Dead and Missing`)) +
+  geom_col(aes(fill = `Region of Incident`))
+```
 
 
