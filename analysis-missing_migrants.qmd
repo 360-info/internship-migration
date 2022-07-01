@@ -66,7 +66,7 @@ leaflet(missingMGrecent) %>%
 ```
 
 
-#### cause of death
+#### death on the sea
 
 ```{r}
 missingMG1 <- missingMG %>%
@@ -148,9 +148,14 @@ missingMG %>%
              y = `Total Number of Dead and Missing`)) +
   geom_col(aes(fill = `Region of Incident`))
 ```
-##### word cloud
+
+
+#### cause of death
 
 ```{r}
-      
+missingMG %>%
+  ggplot(aes(x = `Cause of Death`)) +
+  geom_bar() +
+  facet_wrap(~`Region of Incident`)
 ```
 
