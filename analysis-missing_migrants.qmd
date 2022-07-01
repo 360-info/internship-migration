@@ -59,7 +59,7 @@ missingMGrecent <-
 leaflet(missingMGrecent) %>%
   addProviderTiles("Esri") %>%
   addMarkers(lng = ~lon,
-             lat = ~lat) 
+             lat = ~lat)
 
 #shapefile from http://thematicmapping.org/downloads/world_borders.php
 ```
@@ -73,20 +73,35 @@ missingMG1 <- missingMG %>%
          `Region of Incident`,
          `Total Number of Dead and Missing`) %>%
   group_by(`Incident year`, `Region of Incident`) %>%
-  summarise(n())
-  
+  summarise(`Total Number of Dead and Missing` = sum(`Total Number of Dead and Missing`)) %>%
+  ungroup()
+
+
+missingMG1 <- missingMG1 %>%
+  complete(`Incident year`,
+           `Region of Incident`)
+
+missingMG1[is.na(missingMG1)] <- 0
 ```
 
 ```{r}
 missingMG1 %>%
   ggplot(aes(x = `Incident year`,
              y = `Region of Incident`,
-             fill = `n()`)) +
-  geom_tile() +
-  geom_text(aes(label = `n()`)) +
+             fill = `Total Number of Dead and Missing`)) +
+  geom_tile(colour = "black") +
+  geom_text(aes(label = `Total Number of Dead and Missing`),
+            size = 3) +
   scale_fill_gradient(low = "white", high = "red") +
   theme_minimal()
 
+
+missingMG1 %>%
+  ggplot(aes(`Region of Incident`, `Total Number of Dead and Missing`)) +
+  geom_col(width = .7) +
+  geom_text(aes(label = Label), vjust = -0.5) +
+  scale_y_continuous(expand = expansion(mult = c(.0, .25))) +
+  theme(plot.margin = unit(c(0,0,0,0), "mm"))
 ```
 
 
@@ -96,5 +111,9 @@ missingMG %>%
              y = `Total Number of Dead and Missing`)) +
   geom_col(aes(fill = `Region of Incident`))
 ```
+##### word cloud
 
+```{r}
+      
+```
 
