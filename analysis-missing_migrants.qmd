@@ -72,7 +72,9 @@ leaflet(missingMGrecent) %>%
 missingMG1 <- missingMG %>%
   select(`Incident year`,
          `Region of Incident`,
-         `Total Number of Dead and Missing`) %>%
+         `Total Number of Dead and Missing`)
+  
+missingMG1 <- missingMG1 %>%
   group_by(`Incident year`, `Region of Incident`) %>%
   summarise(`Total Number of Dead and Missing` = sum(`Total Number of Dead and Missing`)) %>%
   ungroup()
@@ -102,8 +104,13 @@ hm1 <- missingMG1 %>%
   geom_text(aes(label = `Total Number of Dead and Missing`),
             size = 3) +
   scale_fill_gradient(low = "white", high = "red") +
-  theme_minimal() +
-  guides(fill="none")
+  theme_360() +
+  guides(fill="none") +
+  labs(title = toupper("Dead and Missing Migrants"),
+       subtitle = toupper(paste(
+         "Number of dead and missing migrants from reported",
+         "incidents 2014-2022",
+         sep = "\n")))
 
 
 mp1 <- missingMG1a %>%
@@ -120,7 +127,18 @@ mp1 <- missingMG1a %>%
   coord_flip()
 
 
-hm1 + mp1 + plot_layout(ncol = 2, widths = c(2, 1.1))
+mmp1 <- hm1 + mp1 + plot_layout(ncol = 2, widths = c(2, 1.1))
+
+
+mmp1 <- mmp1 +
+  plot_annotation(caption = paste(
+         "**CHART:** Ruimin Lin, James Goldie, 360info",
+         "**DATA:** Missing Migrants Project",
+         sep = "<br>"))
+
+
+save_360plot(mmp1, "out/figures/migrantsheatmap.png",
+             shape = "sdtv-landscape")
 ```
 
 
