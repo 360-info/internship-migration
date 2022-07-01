@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(themes360info)
 library(leaflet)
+library(patchwork)
 ```
 
 - The missing migrants data is obtained from [Missing Migrants Project](https://missingmigrants.iom.int/).
@@ -82,10 +83,18 @@ missingMG1 <- missingMG1 %>%
            `Region of Incident`)
 
 missingMG1[is.na(missingMG1)] <- 0
+
+
+
+missingMG1a <- missingMG1 %>%
+  group_by(`Region of Incident`) %>%
+  summarise(`Region total` = sum(`Total Number of Dead and Missing`)) %>%
+  mutate(pct = round((`Region total`/sum(`Region total`)),4),
+         Label = paste0(round(pct*100,1), "%"))
 ```
 
 ```{r}
-missingMG1 %>%
+hm1 <- missingMG1 %>%
   ggplot(aes(x = `Incident year`,
              y = `Region of Incident`,
              fill = `Total Number of Dead and Missing`)) +
@@ -93,15 +102,25 @@ missingMG1 %>%
   geom_text(aes(label = `Total Number of Dead and Missing`),
             size = 3) +
   scale_fill_gradient(low = "white", high = "red") +
-  theme_minimal()
+  theme_minimal() +
+  guides(fill="none")
 
 
-missingMG1 %>%
-  ggplot(aes(`Region of Incident`, `Total Number of Dead and Missing`)) +
-  geom_col(width = .7) +
-  geom_text(aes(label = Label), vjust = -0.5) +
+mp1 <- missingMG1a %>%
+  ggplot(aes(x = `Region of Incident`, 
+             y = pct,
+             alpha = pct)) +
+  geom_col(width = .7,
+           fill = "red") +
+  geom_text(aes(label = Label), hjust = -0.2, size = 3) +
   scale_y_continuous(expand = expansion(mult = c(.0, .25))) +
-  theme(plot.margin = unit(c(0,0,0,0), "mm"))
+  theme_void() +
+  scale_alpha_continuous(range = c(0.5, 1)) +
+  guides(alpha="none") +
+  coord_flip()
+
+
+hm1 + mp1 + plot_layout(ncol = 2, widths = c(2, 1.1))
 ```
 
 
