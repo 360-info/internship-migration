@@ -1,0 +1,24 @@
+---
+title: "Report - Migration"
+author: "Ruimin Lin - 28757599"
+date: '2022-07-03'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+# Abstract
+
+# Background
+
+# Objective
+
+# Data
+
+# Discussion
+
+# Conclusion
