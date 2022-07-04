@@ -23,6 +23,8 @@ library(patchwork)
 ```
 
 # Abstract
+Migrants' journey to the unknown
+
 - aim using visualisation to discover .... 
 - methods (explore from two perspective - missing migrants and human trafficking)
 - data
@@ -34,7 +36,19 @@ Migration is the movement of an individual/a group of people from its usual plac
 
 # Objective
 
-- methods used
+The report attempts to utilize the use of visualisations and in corporation of [360info](https://360info.org/) platform to raise the awareness of illegal and trafficked migrants for the public on International Refugees Day. Visualisations on migrants will be focused on discovering two aspects, missing migrants, and human trafficking overtime. 
+
+For missing migrants, the visualisation attempts to give an overview on:
+
+-	The missing and dead migrants overtime across regions
+-	Death rate and cause of death
+
+For the aspect in human trafficking, the visualisation aims to discover:
+
+-	The route of trafficking, from which country most victims are located at, and to which country most victims are exploited?
+-	Demographic features of victims and how it is related to type of exploits.
+
+Missing migrants on the sea and Human trafficking are a global societal issue and it is crucial to keep track of reported incidents over time.
 
 # Data
 
@@ -103,7 +117,7 @@ mg <- mg %>%
 # Converting NA values to 0, from columns `Number of Dead` to `Number of Children`. 
 ```
 
-### 1.Death on the sea
+### 1.The missing and dead migrants overtime across regions
 
 ```{r}
 mg1 <- mg %>%
@@ -186,8 +200,32 @@ knitr::include_graphics("out/figures/migrantsheatmap.png")
 ```
 
 
+### 2. Death rate and cause of death
 
-### 2.
+```{r}
+mg2 <- mg %>%
+  select(`Incident year`,
+         `Website Date`,
+         `Region of Incident`,
+         `Total Number of Dead and Missing`,
+         `Number of Survivors`,
+         `Cause of Death`
+         )
+
+mg2 <- mg2 %>%
+  mutate(`Total Number of Migrants` = `Total Number of Dead and Missing` + `Number of Survivors`,
+         `Death rate` = round((`Total Number of Dead and Missing`/`Total Number of Migrants`)*100, 2))
+```
+
+
+```{r}
+mg2 %>%
+  ggplot(aes(x = `Website Date`,
+             y = `Death rate`,
+             colour = `Region of Incident`)) +
+  geom_line()
+```
+
 
 ## Human Trafficking
 
