@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(plotly)
 library(countrycode)
 library(parsetR)
@@ -29,7 +29,8 @@ library(patchwork)
 - findings
 
 # Background
-- introduce migration's changing face
+
+Migration is the movement of an individual/a group of people from its usual place of residence to another place (within the country of residence or internationally) temporarily or permanently, either at its own will or being forced due to a variety of reasons. Apart from legal migrants, illegal migrants often took high risk sea travel to move away from its country of residence. Many of those lost its live or gone missing in the process of migration. While migrants on the sea risking their lives to travel across international borders, a considerable number of migrants are being trapped under modern slavery and being forced to provide primarily labour/sexual services for free. The purpose of this report is to discover the changing condition of migrants that are missing on the sea and migrants are trafficked using violence/fraud.
 
 # Objective
 
@@ -179,7 +180,12 @@ mhmp1 <- mhmp1 +
 #             shape = "sdtv-landscape")
 ```
 
-![Distribution of Victims](out/figures/migrantsheatmap.png)
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("out/figures/migrantsheatmap.png")
+```
+
+
 
 ### 2.
 
@@ -292,7 +298,12 @@ victimflow <- ht1b %>%
 
 ```
 
-![Human Trafficking Victim Flows](out/figures/victimflows.png)
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("out/figures/victimflows.png")
+```
+
+
 
 
 
@@ -542,7 +553,10 @@ grid.arrange(fp5,fp6a, nrow = 2, heights = c(1, 2))
 ```
 
 
-![Distribution of Victims](out/figures/victimdistributions.png)
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("out/figures/victimdistributions.png")
+```
+
 
 
 ### 3.
