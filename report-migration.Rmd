@@ -8,17 +8,71 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(knitr)
+library(kableExtra)
 ```
 
-
 # Abstract
+- aim
+- methods (explore from two perspective - missing migrants and human trafficking)
+- data
+- findings
 
 # Background
+- introduce migration's changing face
 
 # Objective
 
-# Data
+- methods used
 
-# Discussion
+# Data Source
 
+Two separate datasets are used in this report to explore the underlying story of missing migrants on the sea and human trafficking. The data for missing migrants is obtained from [Missing Migrants Project](https://missingmigrants.iom.int/), and the data for human trafficking is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc). Both datasets are cleaned to ensure further exploration.
+
+A brief description on variables used in the datasets are shown below:
+
+**Missing Migrants**
+
+```{r}
+t1 <- tibble(
+  Variable = c("Incident year", "Region of Incident", "Total Number of Dead and Missing"),
+  Description = c("Year of incident reported",
+                  "Region of incident happened",
+                  "Total number of dead and missing migrants recorded by the incident, minimum 0")
+)
+
+t1 %>%
+  kable(caption = "Variable description for Missing Migrants data") %>%
+  column_spec(1, bold = TRUE, background = "lightblue") %>%
+  kable_styling() %>%
+  kable_paper() %>%
+  scroll_box(width = "800px", height = "300px") %>%
+  footnote(general = "Data collected from Missing Migrants Project")
+```
+
+
+**Human Trafficking**
+
+```{r}
+t2 <- tibble(
+  Variable = c("Type of Exploits", "Gender Group",
+               "Country of Citizenship", "Country of Exploitation"),
+  Description = c("Type of exploits identified from reported victims",
+                  "Indicates whether the reported victim's gender and whether the victims is under the age of 18 or older at the time the victim is registered. The variable consists of combination of original variables `gender` and `majorityStatus`.",
+                  "Indicates the nationality of the reported victim",
+                  "Indicates the last country where the victim was exploited")
+)
+
+t2 %>%
+  kable(caption = "Variable description for Human Trafficking data") %>%
+  column_spec(1, bold = TRUE, background = "lightblue") %>%
+  kable_styling() %>%
+  kable_paper() %>%
+  scroll_box(width = "800px", height = "300px") %>%
+  footnote(general = "Data collected from Coutner Trafficking Data Collaborative")
+```
+
+
+# Results and Discussion
+- results should be linked to objective
 # Conclusion

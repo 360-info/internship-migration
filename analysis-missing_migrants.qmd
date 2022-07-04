@@ -73,7 +73,8 @@ missingMG1 <- missingMG %>%
   select(`Incident year`,
          `Region of Incident`,
          `Total Number of Dead and Missing`)
-  
+
+# warning summarize
 missingMG1 <- missingMG1 %>%
   group_by(`Incident year`, `Region of Incident`) %>%
   summarise(`Total Number of Dead and Missing` = sum(`Total Number of Dead and Missing`)) %>%
