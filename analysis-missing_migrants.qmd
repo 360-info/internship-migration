@@ -94,6 +94,13 @@ missingMG1a <- missingMG1 %>%
   summarise(`Region total` = sum(`Total Number of Dead and Missing`)) %>%
   mutate(pct = round((`Region total`/sum(`Region total`)),4),
          Label = paste0(round(pct*100,1), "%"))
+
+missingMG1b <- missingMG1 %>%
+  mutate(`Incident year` = as.character(`Incident year`)) %>%
+  group_by(`Incident year`) %>%
+  summarise(`Year total` = sum(`Total Number of Dead and Missing`)) %>%
+  mutate(pct = round((`Year total`/sum(`Year total`)),4),
+         Label = paste0(round(pct*100,1), "%"))
 ```
 
 ```{r}
@@ -105,13 +112,8 @@ hm1 <- missingMG1 %>%
   geom_text(aes(label = `Total Number of Dead and Missing`),
             size = 3) +
   scale_fill_gradient(low = "white", high = "red") +
-  theme_360() +
-  guides(fill="none") +
-  labs(title = toupper("Dead and Missing Migrants"),
-       subtitle = toupper(paste(
-         "Number of dead and missing migrants from reported",
-         "incidents 2014-2022",
-         sep = "\n")))
+  theme_minimal() +
+  guides(fill="none")
 
 
 mp1 <- missingMG1a %>%
@@ -127,19 +129,36 @@ mp1 <- missingMG1a %>%
   guides(alpha="none") +
   coord_flip()
 
+mp2 <- missingMG1b %>%
+  ggplot(aes(x = `Incident year`,
+             y = pct,
+             alpha = pct)) +
+  geom_col(width = .7,
+           fill = "red") +
+  geom_text(aes(label = Label), vjust = -0.5, size = 3) +
+  scale_y_continuous(expand = expansion(mult = c(.0, .25))) +
+  theme_void() +
+  scale_alpha_continuous(range = c(0.5, 1)) +
+  guides(alpha="none") +
+    labs(title = toupper("Dead and Missing Migrants"),
+       subtitle = toupper(paste(
+         "Number of dead and missing migrants from reported",
+         "incidents 2014-2022",
+         sep = "\n")))
 
-mmp1 <- hm1 + mp1 + plot_layout(ncol = 2, widths = c(2, 1.1))
+layoutm <- "
+AA#
+BBC
+BBC
+BBC
+BBC"
 
 
-mmp1 <- mmp1 +
-  plot_annotation(caption = paste(
-         "**CHART:** Ruimin Lin, James Goldie, 360info",
-         "**DATA:** Missing Migrants Project",
-         sep = "<br>"))
 
 
-save_360plot(mmp1, "out/figures/migrantsheatmap.png",
-             shape = "sdtv-landscape")
+mmp1 <- mp2 + hm1 + mp1 + plot_layout(design = layoutm)
+
+mmp1
 ```
 
 

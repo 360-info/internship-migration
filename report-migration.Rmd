@@ -101,9 +101,18 @@ t2 %>%
   footnote(general = "Data collected from Coutner Trafficking Data Collaborative")
 ```
 
+# Methodology
+
+## Missing Migrants
+
+### The missing and dead migrants overtime across regions
+
+The purpose of this visualisation is to offer an immediately view of the number of dead and missing migrants overtime and across regions. Therefore, a heatmap is created at the first instance. Audiences could easily capture the region with darkest colour to be the most dangerous region that many migrants lost their lives in. However, a single heatmap is not enough as it does not have the ability to tell audience the number changing overtime. Therefore, two marginal plots are created in corporate with the heatmap as shown below, that fulfills the requirement of offering the audience a brief overview of the situation overtime and across  regions.
 
 
-# Discussion and Results
+
+
+# Discussion, and Results
 
 ## Missing Migrants
 
@@ -145,11 +154,36 @@ mg1a <- mg1 %>%
   summarise(`Region total` = sum(`Total Number of Dead and Missing`)) %>%
   mutate(pct = round((`Region total`/sum(`Region total`)),4),
          Label = paste0(round(pct*100,1), "%"))
+
+mg1b <- mg1 %>%
+  mutate(`Incident year` = as.character(`Incident year`)) %>%
+  group_by(`Incident year`) %>%
+  summarise(`Year total` = sum(`Total Number of Dead and Missing`)) %>%
+  mutate(pct = round((`Year total`/sum(`Year total`)),4),
+         Label = paste0(round(pct*100,1), "%"))
+  
+```
+
+
+```{r}
+mhmv1 <- mg1 %>%
+  mutate(`Incident year` = as.character(`Incident year`)) %>%
+  ggplot(aes(x = `Incident year`,
+             y = `Region of Incident`,
+             fill = `Total Number of Dead and Missing`)) +
+  geom_tile() +
+  geom_text(aes(label = `Total Number of Dead and Missing`)) +
+  scale_fill_gradient(low = "white", high = "red") +
+  theme_minimal() +
+  ggtitle("Heatmap version 1")
+
+mhmv1
 ```
 
 
 ```{r}
 mhm1 <- mg1 %>%
+  mutate(`Incident year` = as.character(`Incident year`)) %>%
   ggplot(aes(x = `Incident year`,
              y = `Region of Incident`,
              fill = `Total Number of Dead and Missing`)) +
@@ -157,14 +191,11 @@ mhm1 <- mg1 %>%
   geom_text(aes(label = `Total Number of Dead and Missing`),
             size = 3) +
   scale_fill_gradient(low = "white", high = "red") +
-  theme_360() +
+  theme_minimal() +
   guides(fill="none") +
-  labs(title = toupper("Dead and Missing Migrants"),
-       subtitle = toupper(paste(
-         "Number of dead and missing migrants from reported",
-         "incidents 2014-2022",
-         sep = "\n")))
-
+  theme(plot.caption = element_text(hjust = 0),
+        axis.title.x = element_blank()) +
+  labs(caption = "DATA: Missing Migrants Project")
 
 mhm2 <- mg1a %>%
   ggplot(aes(x = `Region of Incident`, 
@@ -179,25 +210,39 @@ mhm2 <- mg1a %>%
   guides(alpha="none") +
   coord_flip()
 
+mhm3 <- mg1b %>%
+  ggplot(aes(x = `Incident year`,
+             y = pct,
+             alpha = pct)) +
+  geom_col(width = .7,
+           fill = "red") +
+  geom_text(aes(label = Label), vjust = -0.5, size = 3) +
+  scale_y_continuous(expand = expansion(mult = c(.0, .25))) +
+  theme_void() +
+  scale_alpha_continuous(range = c(0.5, 1)) +
+  guides(alpha="none") +
+    labs(title = toupper("Dead and Missing Migrants"),
+       subtitle = toupper(paste(
+         "Number of dead and missing migrants from reported",
+         "incidents 2014-2022",
+         sep = "\n")))
 
-mhmp1 <- mhm1 + mhm2 + plot_layout(ncol = 2, widths = c(2, 1.1))
+layout <- "
+AA#
+BBC
+BBC
+BBC
+BBC"
+mhmp1 <- mhm3 + mhm1 + mhm2 + plot_layout(design = layout)
 
+mhmp1 
 
-mhmp1 <- mhmp1 +
-  plot_annotation(caption = paste(
-         "**CHART:** Ruimin Lin, James Goldie, 360info",
-         "**DATA:** Missing Migrants Project",
-         sep = "<br>"))
-
-
-# save_360plot(mmp1, "out/figures/migrantsheatmap.png",
+# save_360plot(mhmp1, "out/figures/migrantsheatmap.png",
 #             shape = "sdtv-landscape")
 ```
 
 
-```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("out/figures/migrantsheatmap.png")
-```
+
 
 
 ### 2. Death rate and cause of death
