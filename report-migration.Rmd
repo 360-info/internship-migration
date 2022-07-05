@@ -610,6 +610,16 @@ grid.arrange(fp5,fp6a, nrow = 2, heights = c(1, 2))
 
 ### 1.The missing and dead migrants overtime across regions
 
+The heatmap demonstrates the changing in number of total missing and dead migrants overtime by opacity of the colour, the labelled number gives audiences further indication on the seriousness of incidents reported. The marginal plots on the top and side offers a quick view on the fluctuation on percentages of missing and death overtime and across the regions. The percentage is calculated by:
+
+(number of dead and missing migrants at one year/total number of dead and missing migrants from 2014 to 2022) * 100
+
+The method is also similar for percentage across regions.
+
+From the heatmap, the major region of migrant found dead and missing can be easily located at a glance, by looking at where all darker coloured tiles sit, which is Mediterranean. Taking up 46.3% of overall dead and missing migrants across the regions. Followed by Northern Africa (13.9%), North America (6%) and South-eastern Asia (5.9%). On the other hand, the year of tragedy can also be identified with the marginal plot at the top, which is the year of 2022. Taking up 17% of the overall dead and missing migrants from 2014 to 2022, followed by 2016 at 14%.
+
+As a result, Mediterranean are identified as the most dangerous region since thousands of migrants lost its life when taking the risk to travel across the boarders each year.
+
 ```{r}
 mhmp1
 ```
