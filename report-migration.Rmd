@@ -109,13 +109,6 @@ t2 %>%
 
 The purpose of this visualisation is to offer an immediately view of the number of dead and missing migrants overtime and across regions. Therefore, a heatmap is created at the first instance. Audiences could easily capture the region with darkest colour to be the most dangerous region that many migrants lost their lives in. However, a single heatmap is not enough as it does not have the ability to tell audience the number changing overtime. Therefore, two marginal plots are created in corporate with the heatmap as shown below, that fulfills the requirement of offering the audience a brief overview of the situation overtime and across  regions.
 
-
-
-
-# Discussion, and Results
-
-## Missing Migrants
-
 ```{r}
 mg <- read_csv("data/Missing_Migrants_Global_Figures_allData.csv")
 
@@ -125,8 +118,6 @@ mg <- mg %>%
 
 # Converting NA values to 0, from columns `Number of Dead` to `Number of Children`. 
 ```
-
-### 1.The missing and dead migrants overtime across regions
 
 ```{r}
 mg1 <- mg %>%
@@ -236,43 +227,15 @@ BBC"
 mhmp1 <- mhm3 + mhm1 + mhm2 + plot_layout(design = layout)
 
 mhmp1 
-
-# save_360plot(mhmp1, "out/figures/migrantsheatmap.png",
-#             shape = "sdtv-landscape")
-```
-
-
-
-
-
-### 2. Death rate and cause of death
-
-```{r}
-mg2 <- mg %>%
-  select(`Incident year`,
-         `Website Date`,
-         `Region of Incident`,
-         `Total Number of Dead and Missing`,
-         `Number of Survivors`,
-         `Cause of Death`
-         )
-
-mg2 <- mg2 %>%
-  mutate(`Total Number of Migrants` = `Total Number of Dead and Missing` + `Number of Survivors`,
-         `Death rate` = round((`Total Number of Dead and Missing`/`Total Number of Migrants`)*100, 2))
-```
-
-
-```{r}
-mg2 %>%
-  ggplot(aes(x = `Website Date`,
-             y = `Death rate`,
-             colour = `Region of Incident`)) +
-  geom_line()
 ```
 
 
 ## Human Trafficking
+
+### The routes of trafficking
+
+Human trafficking routes are visualised using the Sankey diagram, the aim of this visualisation is to explore the routes that most victims are trafficked to. At the first stage of creating the visualisation, an interactive html widget package called `parsetR` is attempted, however, this html widget has a lot of restriction in customizing the visualisation. The title and variable names cannot be modified, furthermore, it is not allowed to add 360 theme to align with the 360info’s style of visualisation. Therefore, `gg_alluvium` and `gg_stratum` is suggested to visualise the human trafficking routes.
+
 
 ```{r}
 ht <- read_csv("data/The Global Dataset 14 Apr 2020.csv")
@@ -313,8 +276,6 @@ ht1b <- ht1b %>%
 
 ```
 
-
-### 1. The Routes of Trafficking
 
 ```{r}
 parset(ht1b, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'), 
@@ -389,8 +350,11 @@ knitr::include_graphics("out/figures/victimflows.png")
 
 
 
+### Demographic features of trafficking victim
 
-### 2. Features of Victims
+To obtain a better understanding on victim’s features in relation to the type of exploits they suffered, a bar chart is considered at the first instance. 5 versions of bar charts are created before the final output of this visualisation is obtained. During the process of improving the visualisations, several methods of demonstrating the counts allocated to each victim group are attempted. At the later stage of developing the bar chart, percentages are in use to demonstrate the proportion of victims gender group that falls under the type of exploits they suffered.
+Therefore, bar chart version 5 is created, and an error is quickly identified since the percentage bar does not add up to 1 for each type of exploits. The error occurred are the result of misusing `position = “dodge”` in `geom_col`. At the final stage, a well-polished stacked bar chart is created, with percentages showing the proportion of gender group within each category of type of exploits. In addition, under each type of exploits, the actual number of each category is labelled to avoid the possibility of misleading the audience, since the amount of reported victims in each type of exploit are quite distinct.
+
 
 ```{r}
 fp1 <- ht %>%
@@ -634,6 +598,71 @@ grid.arrange(fp1,fp2,nrow = 2)
 grid.arrange(fp3,fp4,nrow = 2)
 grid.arrange(fp5,fp6a, nrow = 2, heights = c(1, 2))
 ```
+
+
+
+
+# Discussion, and Results
+
+## Missing Migrants
+
+
+
+### 1.The missing and dead migrants overtime across regions
+
+```{r}
+mhmp1
+```
+
+
+
+
+
+
+### 2. Death rate and cause of death
+
+```{r}
+mg2 <- mg %>%
+  select(`Incident year`,
+         `Website Date`,
+         `Region of Incident`,
+         `Total Number of Dead and Missing`,
+         `Number of Survivors`,
+         `Cause of Death`
+         )
+
+mg2 <- mg2 %>%
+  mutate(`Total Number of Migrants` = `Total Number of Dead and Missing` + `Number of Survivors`,
+         `Death rate` = round((`Total Number of Dead and Missing`/`Total Number of Migrants`)*100, 2))
+```
+
+
+```{r}
+mg2 %>%
+  ggplot(aes(x = `Website Date`,
+             y = `Death rate`,
+             colour = `Region of Incident`)) +
+  geom_line()
+```
+
+
+## Human Trafficking
+
+
+
+
+### 1. The Routes of Trafficking
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("out/figures/victimflows.png")
+```
+
+
+
+
+
+
+### 2. Features of Victims
 
 
 ```{r, echo=FALSE, out.width="80%"}
