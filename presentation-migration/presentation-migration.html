@@ -9,6 +9,19 @@
     <link href="presentation-migration_files/remark-css/default.css" rel="stylesheet" />
     <link href="presentation-migration_files/remark-css/metropolis.css" rel="stylesheet" />
     <link href="presentation-migration_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="presentation-migration_files/fabric/fabric.min.js"></script>
+    <link href="presentation-migration_files/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="presentation-migration_files/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <link href="presentation-migration_files/panelset/panelset.css" rel="stylesheet" />
+    <script src="presentation-migration_files/panelset/panelset.js"></script>
+    <script src="presentation-migration_files/kePrint/kePrint.js"></script>
+    <link href="presentation-migration_files/lightable/lightable.css" rel="stylesheet" />
+    <script src="presentation-migration_files/htmlwidgets/htmlwidgets.js"></script>
+    <script src="presentation-migration_files/d3/d3.min.js"></script>
+    <link href="presentation-migration_files/d3-parsets/d3.parsets.css" rel="stylesheet" />
+    <script src="presentation-migration_files/d3-parsets/d3.parsets.min.js"></script>
+    <script src="presentation-migration_files/parset-binding/parset.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -40,6 +53,364 @@ class: center, middle, inverse, title-slide
 
 
 
+
+class: middle, inverse
+
+## Introduction
+
+
+---
+
+# Introduction
+
+## Background and Motivation
+
+--
+
+◾ Migration is the movement of an individual/a group of people from its usual place of residence to another place (within the country of residence or internationally) temporarily or permanently.
+
+--
+
+◾ Apart from legal migrants, illegal migrants often took high risk sea travel to move away from its country of residence.
+
+--
+
+◾ A considerable number of migrants are being trapped under modern slavery and being forced to provide primarily labour/sexual services for free.
+
+---
+# Introduction
+
+.panelset[
+
+  .panel[.panel-name[Aim]
+--
+
+### This visualisation project aims to raise the public awareness of illegal and trafficked migrants, in corporation with [360info](https://360info.org/) platform.
+
+#### ◾ Visualisations produced will be focusing on the following aspects:
+
+
+-	The missing and dead migrants overtime across regions
+-	The route of trafficking, from which country most victims are located at, and to which country most victims are exploited?
+-	Demographic features of victims and how it is related to type of exploits.
+
+
+]
+
+  .panel[.panel-name[Data Description 1]
+  
+#### Data for missing migrants:
+
+- [Missing Migrants Project](https://missingmigrants.iom.int/)
+
+&lt;table class="table lightable-paper" style='margin-left: auto; margin-right: auto; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;border-bottom: 0;'&gt;
+&lt;caption&gt;Variable description for Missing Migrants data&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Variable &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Description &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Incident year &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Year of incident reported &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Region of Incident &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Region of incident happened &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Total Number of Dead and Missing &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total number of dead and missing migrants recorded by the incident, minimum 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;&lt;span style="font-style: italic;"&gt;Note: &lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; Data collected from Missing Migrants Project&lt;/td&gt;&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+
+
+
+]
+
+  .panel[.panel-name[Data Description 2]
+
+#### Data for human trafficking:
+
+- [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc)
+
+&lt;table class="table lightable-paper" style='margin-left: auto; margin-right: auto; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;border-bottom: 0;'&gt;
+&lt;caption&gt;Variable description for Human Trafficking data&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Variable &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Description &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Type of Exploits &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Type of exploits identified from reported victims &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Gender Group &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Indicates the reported victim's gender and whether the victims is under the age of 18 or older at the time the victim is registered. The variable consists of combination of original variables gender and majorityStatus. &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Country of Citizenship &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Indicates the nationality of the reported victim &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Country of Exploitation &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Indicates the last country where the victim was exploited &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;&lt;span style="font-style: italic;"&gt;Note: &lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; Data collected from Coutner Trafficking Data Collaborative&lt;/td&gt;&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+
+
+  ]
+
+]
+
+---
+class: middle, inverse
+
+## Discussion and Results
+
+---
+
+# Discussion and Results
+
+## The missing and dead migrants overtime across regions
+
+.panelset[
+   .panel[.panel-name[Version 1]
+ 
+ .pull-left[  
+&lt;img src="presentation-migration_files/figure-html/unnamed-chunk-3-1.png" width="90%" height="80%" /&gt;
+  ]
+  
+  .pull-right[
+  ◾ Does not have the ability to tell audience the number changing overtime.
+  
+  ◾ Two marginal plots added.
+]
+  ]
+   
+  .panel[.panel-name[Version 2]
+  
+  .pull-left[
+  
+&lt;img src="presentation-migration_files/figure-html/unnamed-chunk-4-1.png" width="90%" height="80%" /&gt;
+  ]
+  
+  .pull-right[
+  ◾ The major region of migrant found dead and missing is Mediterranean.
+  
+  ◾ Mediterranean taking up 46.3% of overall dead and missing migrants across the regions. 
+  
+  ◾ Followed by Northern Africa (13.9%), North America (6%) and South-eastern Asia (5.9%).
+  
+  ◾ Peak year of dead and missing is 2022.
+]
+  
+  ]
+]
+
+---
+
+# Discussion and Results
+
+## The route of trafficking
+
+.panelset[
+   .panel[.panel-name[Version 1]
+ 
+ .pull-left[
+ 
+
+
+
+
+
+<div id="htmlwidget-7f4c9f265eacb8f69952" style="width:90%;height:80%;" class="parset html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7f4c9f265eacb8f69952">{"x":{"data":{"CountryOfOrigin":["Ukraine","Moldova","United States","Philippines","Ukraine","Myanmar (Burma)","Cambodia","Belarus","Indonesia","Ghana"],"CountryOfExploitation":["Ukraine","Moldova","United States","Philippines","Russia","Indonesia","Cambodia","Russia","Malaysia","Ghana"],"counts":[5299,4504,3636,1988,1676,1224,883,751,553,544]},"options":{"dimensions":["CountryOfOrigin","CountryOfExploitation"],"value":"function(d){return d.counts}","tension":0.5}},"evals":["options.value"],"jsHooks":[]}</script>
+
+## 😞 Failed to demonstrate the html widget, check report-migration.html
+
+]
+ .pull-right[
+ ◾ The html widget has a lot of restriction in customizing the visualisation.
+ 
+ ◾ Title and variable names cannot be modified.
+ 
+ ◾ Unable to customize themes.
+ 
+ ◾ Goes back to static visualisation, using function `gg_alluvium` and `gg_stratum`.
+]
+ ]
+ 
+   .panel[.panel-name[Version 2]
+   
+ .pull-left[
+ 
+ 
+
+
+ 
+&lt;div class="figure"&gt;
+&lt;img src="out/figures/victimflows.png" alt="Routes v2" width="80%" height="80%" /&gt;
+&lt;p class="caption"&gt;Routes v2&lt;/p&gt;
+&lt;/div&gt;
+]
+ .pull-right[
+ ◾ The opacity of the flow between `Country of Citizenship` and `Country of Exploitation` indicates number of victims.
+ 
+ ◾ Many of most common human trafficking flows indicates victims are exploited within its country of citizenship.
+ 
+ ◾ For across boarder trafficking, Russia is the main country of exploitation, with victims from Ukraine and Belarus. 
+ 
+]
+ 
+ ]]
+ 
+ 
+---
+# Discussion and Results
+
+## Demographic Features
+
+.panelset[
+   .panel[.panel-name[Version 1-4]
+ 
+ .pull-left[
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;img src="presentation-migration_files/figure-html/unnamed-chunk-15-1.png" width="90%" height="80%" /&gt;
+
+ 
+]
+ .pull-right[
+ 
+&lt;img src="presentation-migration_files/figure-html/unnamed-chunk-16-1.png" width="90%" height="80%" /&gt;
+ 
+]
+ 
+   .panel[.panel-name[Version 5]
+   
+   .pull-left[
+&lt;img src="presentation-migration_files/figure-html/unnamed-chunk-17-1.png" width="90%" height="80%" /&gt;
+
+]
+   .pull-right[
+   
+   ◾ Several methods of demonstrating the counts allocated to each victim group are attempted from version 1-5.
+   
+   ◾ Decided to use percentage at the later stage.
+   
+   ◾ After version 5 is created, an error is identified as the result of misusing `position = “dodge”` in `geom_col`, as percentage bar does not add up to 1 for each type of exploits.
+   
+   ◾ Version 6 is produced and avoids the previous errors.
+   
+   
+]
+   ]
+
+ 
+   .panel[.panel-name[Version 6]
+   
+ .pull-left[
+ 
+&lt;img src="out/figures/victimdistributions.png" width="90%" height="80%" /&gt;
+ 
+]
+ .pull-right[
+ 
+ ◾ Female adult are the main group of victims across most type of exploits recorded by the dataset.
+ 
+ ◾ We can see that sexual exploitation is the largest category of exploitation with 15989 reported cases fall under this category.
+ 
+ ◾ For forced labour, male adult and male minor takes the majority, taking up about 70% of all reported cases.
+ 
+ 
+]
+ 
+ ]]]
+ 
+---
+class: inverse, middle
+
+## Conclusion
+
+---
+
+# Conclusion
+
+## Demographic Features
+
+.panelset[
+
+  .panel[.panel-name[Summary]
+
+### Missing Migrants
+
+◾ Mediterranean as the main region where majority of migrants on the sea lost their lives on.
+
+
+### Human Trafficking
+
+◾ From the cases recorded by [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/) from 2002 to 2019, many of most common human trafficking flows are domestic.
+
+◾ Majority group of victims exploited, are female adults within sexual exploitation category and male adults within forced labour category.
+
+]
+
+
+  .panel[.panel-name[Limitation and Future Analysis]
+  
+
+
+### Data Limitation
+
+◾ Specificity of the target group in data collection.
+
+◾ Limits the completeness of data.
+
+### Future Analysis
+
+◾ Expecting more incidents and cases can be found and recorded by increasing speed of information dissemination nowadays.
+]
+
+]
+---
+
+class: middle, inverse
+
+## Thank you for Watching!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -47,7 +418,6 @@ class: center, middle, inverse, title-slide
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "16:9",
 "countIncrementalSlides": true
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
