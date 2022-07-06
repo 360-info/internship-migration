@@ -697,4 +697,18 @@ knitr::include_graphics("out/figures/victimdistributions.png")
 
 # Conclusion
 
+After the explorations on both datasets through the process of producing visualisations, a series of data story about illegal and trafficked migrants is discovered. 
+
+The heatmap on missing migrants indicates Mediterranean as the main region where majority of migrants on sea lost their lives on, furthermore, year 2022 are identified as the peak year of number of dead and missing migrants reported. 
+
+The data story then turns to the human trafficking face. The Sankey diagram discovered an unanticipated fact, that with cases reported in the human trafficking dataset, many of most common human trafficking flows indicates victims are exploited within its country of citizenship. On the other hand, the stacked bar chart that demonstrates an overview on demographic distribution of victims, indicates the majority group of victims exploited, which are female adults within sexual exploitation category and male adults within forced labour category.
+
+The visualisation produced in this report is associated with [Special report: Migration’s changing face]( https://360info.org/special-report-migrations-changing-face/). The aim of both report and visualisation is to raise the public awareness on migrants on international refugees’ day. 
+The purpose of visualisations is to offer public an overview on the death of migrants on the seas, and the torture suffered by human trafficking victims.
+
+As mentioned previously, due to the specificity of the target group in data collection, the datasets used in this report are unable to record all incidents and cases for missing & dead migrants on the seas and trafficked migrants. However, it is expected that the visualisations produced may raise the public awareness on the difficult experience of this group of special migrants suffered.
+
+For furure analysis, it is expected that more incidents and cases can be found and recorded by increasing speed of information dissemination, hence contribute to efforts to better understand the causes of incidents, population that are more likely to suffer. 
+
+
 
