@@ -693,7 +693,7 @@ The purpose of visualisations is to offer public an overview on the death of mig
 
 As mentioned previously, due to the specificity of the target group in data collection, the datasets used in this report are unable to record all incidents and cases for missing & dead migrants on the seas and trafficked migrants. However, it is expected that the visualisations produced may raise the public awareness on the difficult experience of this group of special migrants suffered.
 
-For furure analysis, it is expected that more incidents and cases can be found and recorded by increasing speed of information dissemination, hence contribute to efforts to better understand the causes of incidents, population that are more likely to suffer. 
+For future analysis, it is expected that more incidents and cases can be found and recorded by increasing speed of information dissemination, hence contribute to efforts to better understand the causes of incidents, population that are more likely to suffer. 
 
 
 # References
