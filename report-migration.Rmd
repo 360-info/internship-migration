@@ -1,5 +1,5 @@
 ---
-title: "Report - Migration"
+title: "Migrants' Journey to the Unknown"
 author: "Ruimin Lin - 28757599"
 date: '2022-07-03'
 output: html_document
@@ -23,7 +23,6 @@ library(patchwork)
 ```
 
 # Abstract
-Migrants' journey to the unknown
 
 - aim using visualisation to discover .... 
 - methods (explore from two perspective - missing migrants and human trafficking)
@@ -32,7 +31,11 @@ Migrants' journey to the unknown
 
 # Background
 
-Migration is the movement of an individual/a group of people from its usual place of residence to another place (within the country of residence or internationally) temporarily or permanently, either at its own will or being forced due to a variety of reasons. Apart from legal migrants, illegal migrants often took high risk sea travel to move away from its country of residence. Many of those lost its live or gone missing in the process of migration. While migrants on the sea risking their lives to travel across international borders, a considerable number of migrants are being trapped under modern slavery and being forced to provide primarily labour/sexual services for free. The purpose of this report is to discover the changing condition of migrants that are missing on the sea and migrants are trafficked using violence/fraud.
+Migration is the movement of an individual/a group of people from its usual place of residence to another place (within the country of residence or internationally) temporarily or permanently, either at its own will or being forced due to a variety of reasons. Apart from legal migrants, illegal migrants often took high risk sea travel to move away from its country of residence. 
+
+"And for migrants who are leaving their country of origin to escape danger, the risks are high. Even those who survive the arduous journey often face another life-threatening challenge: statelessness. Denied citizenship of their destination country they are often unable to safely return to where they came from." Said Reece Hooker, the lead editor of the special report on The changing face of migration and migrants at 360info.
+
+Many of those lost its live or gone missing in the process of migration. While migrants on the sea risking their lives to travel across international borders, a considerable number of migrants are being trapped under modern slavery and being forced to provide primarily labour/sexual services for free. The purpose of this report is to discover the changing condition of migrants that are missing on the sea and migrants are trafficked using violence/fraud.
 
 # Objective
 
@@ -100,6 +103,10 @@ t2 %>%
   scroll_box(width = "800px", height = "300px") %>%
   footnote(general = "Data collected from Coutner Trafficking Data Collaborative")
 ```
+
+## Data Limitation
+
+For both datasets, due to the specificity and sensitivity of the target group in data collection, it limits the completeness of the data. Many of incidents on the sea may not be found and reported. This goes the same for human trafficking data, a large number of cases are underreported, leading to the possibility that the dataset may only present a relatively small portion out of all trafficking happened around the world.
 
 # Methodology
 
@@ -212,7 +219,7 @@ mhm3 <- mg1b %>%
   theme_void() +
   scale_alpha_continuous(range = c(0.5, 1)) +
   guides(alpha="none") +
-    labs(title = toupper("Dead and Missing Migrants"),
+  labs(title = toupper("Dead and Missing Migrants"),
        subtitle = toupper(paste(
          "Number of dead and missing migrants from reported",
          "incidents 2014-2022",
@@ -234,7 +241,7 @@ mhmp1
 
 ### The routes of trafficking
 
-Human trafficking routes are visualised using the Sankey diagram, the aim of this visualisation is to explore the routes that most victims are trafficked to. At the first stage of creating the visualisation, an interactive html widget package called `parsetR` is attempted, however, this html widget has a lot of restriction in customizing the visualisation. The title and variable names cannot be modified, furthermore, it is not allowed to add 360 theme to align with the 360info’s style of visualisation. Therefore, `gg_alluvium` and `gg_stratum` is suggested to visualise the human trafficking routes.
+Human trafficking routes are visualised using the Sankey diagram, the aim of this visualisation is to explore the routes that most victims are trafficked to. At the first stage of creating the visualisation, an interactive html widget package called `parsetR` is attempted, however, this html widget has a lot of restriction in customizing the visualisation. The title and variable names cannot be modified, furthermore, it is not allowed to add 360 theme to align with the 360info’s style of visualisation. Therefore, `gg_alluvium` and `gg_stratum` is suggested by [James](https://github.com/jimjam-slam) to visualise the human trafficking routes.
 
 
 ```{r}
@@ -612,9 +619,11 @@ grid.arrange(fp5,fp6a, nrow = 2, heights = c(1, 2))
 
 The heatmap demonstrates the changing in number of total missing and dead migrants overtime by opacity of the colour, the labelled number gives audiences further indication on the seriousness of incidents reported. The marginal plots on the top and side offers a quick view on the fluctuation on percentages of missing and death overtime and across the regions. The percentage is calculated by:
 
-(number of dead and missing migrants at one year/total number of dead and missing migrants from 2014 to 2022) * 100
+**(number of dead and missing migrants at one year / total number of dead and missing migrants from 2014 to 2022) * 100**
 
 The method is also similar for percentage across regions.
+
+**(number of dead and missing migrants in one region/total number of dead and missing migrants across all regions) * 100**
 
 From the heatmap, the major region of migrant found dead and missing can be easily located at a glance, by looking at where all darker coloured tiles sit, which is Mediterranean. Taking up 46.3% of overall dead and missing migrants across the regions. Followed by Northern Africa (13.9%), North America (6%) and South-eastern Asia (5.9%). On the other hand, the year of tragedy can also be identified with the marginal plot at the top, which is the year of 2022. Taking up 17% of the overall dead and missing migrants from 2014 to 2022, followed by 2016 at 14%.
 
@@ -663,6 +672,8 @@ mg2 %>%
 
 ### 1. The Routes of Trafficking
 
+The Sankey diagram gives an overview on the most common routes of victims being trafficked from reported cases 2002 to 2019, the opacity of the flow between `Country of Citizenship` and `Country of Exploitation` indicates number of victims. The result provided by the data is unanticipated as the route for most reported case of human trafficking victim is domestic. All reported case in Moldova, US, Philippines, Cambodia and Ghana are domestic. The majority of reported cases in Ukraine are domestic, with a small amount of cases flow to Russia. For across boarder trafficking, Russia is the main country of exploitation, with victims from Ukraine and Belarus. 
+
 ```{r, echo=FALSE, out.width="80%"}
 knitr::include_graphics("out/figures/victimflows.png")
 ```
@@ -674,6 +685,9 @@ knitr::include_graphics("out/figures/victimflows.png")
 
 ### 2. Features of Victims
 
+A stacked bar chart is applied to demonstrate the demographic distribution of victims of all reported human trafficking cases from 2002 to 2019. Not surprisingly, Female adult are the main group of victims across most type of exploits recorded by the dataset. Sexual exploitation is the largest category of exploitation with 15989 reported cases fall under this category, followed by forced labour.  
+Of all reported cases of sexual exploitation, around 60% of female adult are identified, following by female and male minor under sexual exploitation category. A small number of female adult and minor suffers from combination of sexual and labour exploitation. On the other hand, Male adult and male minor takes the majority, about 70% of all reported cases of forced labour.
+
 
 ```{r, echo=FALSE, out.width="80%"}
 knitr::include_graphics("out/figures/victimdistributions.png")
@@ -681,8 +695,6 @@ knitr::include_graphics("out/figures/victimdistributions.png")
 
 
 
-### 3.
-- results should be linked to objective
-
-
 # Conclusion
+
+
