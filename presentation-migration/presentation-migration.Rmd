@@ -1,12 +1,14 @@
 ---
 title: "Migrants' Life into Desperation"
-subtitle: "."  
+subtitle: "A focus on refugees on the sea and human trafficking"  
 author: 
-  - "Ruimin Lin"
-date: '`r Sys.Date()`'
+  - "Author: Ruimin Lin"
+  - "Mentor: James Goldie"
+institute:
+  - "360info"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    css: [default, metropolis, metropolis-fonts]
     nature:
       slideNumberFormat: "%current%"
       highlightStyle: github
@@ -28,12 +30,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(xaringanthemer)
-style_duo_accent(
-  primary_color = "#1381B0",
-  secondary_color = "#FF961C",
-  inverse_header_color = "#FFFFFF"
+style_mono_accent(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
 )
 ```
+
+
 
