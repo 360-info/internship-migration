@@ -37,7 +37,7 @@ The purpose of this report is to produce visualisations in association with [360
 A brief result is discovered through the use of visualisation and supported datasets, that Mediterranean tends to be the major region where refugees lost their lives on. On the other hand, it is found that most trafficking cases are domestic. Details will be discussed in following sections.
 
 
-# Background
+# Background and Motivation
 
 Migration is the movement of an individual/a group of people from its usual place of residence to another place (within the country of residence or internationally) temporarily or permanently, either at its own will or being forced due to a variety of reasons. Apart from legal migrants, illegal migrants often took high risk sea travel to move away from its country of residence. 
 
@@ -614,7 +614,7 @@ grid.arrange(fp5,fp6a, nrow = 2, heights = c(1, 2))
 
 
 
-# Discussion, and Results
+# Discussion and Results
 
 ## Missing Migrants
 
@@ -688,8 +688,6 @@ For furure analysis, it is expected that more incidents and cases can be found a
 
 
 # References
-
-## R-package
 
 @R-plotly
 @R-countrycode
