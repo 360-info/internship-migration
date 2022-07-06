@@ -1,8 +1,14 @@
 ---
-title: "Migrants' Journey to the Unknown"
+title: "Migrants' Life into the Desperation"
 author: "Ruimin Lin - 28757599"
 date: '2022-07-03'
-output: html_document
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    theme: united
+    highlight: default
+bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -24,10 +30,12 @@ library(patchwork)
 
 # Abstract
 
-- aim using visualisation to discover .... 
-- methods (explore from two perspective - missing migrants and human trafficking)
-- data
-- findings
+The contemporary migration began from late 1960s, most with intention of obtaining a better life. However, the journey of migration for a number of people never reaches to their desired destination. Illegal migrants like refugees undertake sea journeys to across international boarder in seeking safety, many of those lost their lives when travelling on the sea under poor conditions. On the other hand, another group of migrants are being trafficked and forced to work as a modern slave.
+
+The purpose of this report is to produce visualisations in association with [360info](https://360info.org/) platform to discover the underlying data story of this special group of migrants and raising the public awareness. Visualitsations produced will be focusing on two aspects, **missing migrants (refugees on the sea)** and **human trafficking**. Two datasets from [Missing Migrants Project](https://missingmigrants.iom.int/) and [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc) will be used to support the visualisation.
+
+A brief result is discovered through the use of visualisation and supported datasets, that Mediterranean tends to be the major region where refugees lost their lives on. On the other hand, it is found that most trafficking cases are domestic. Details will be discussed in following sections.
+
 
 # Background
 
@@ -709,6 +717,34 @@ The purpose of visualisations is to offer public an overview on the death of mig
 As mentioned previously, due to the specificity of the target group in data collection, the datasets used in this report are unable to record all incidents and cases for missing & dead migrants on the seas and trafficked migrants. However, it is expected that the visualisations produced may raise the public awareness on the difficult experience of this group of special migrants suffered.
 
 For furure analysis, it is expected that more incidents and cases can be found and recorded by increasing speed of information dissemination, hence contribute to efforts to better understand the causes of incidents, population that are more likely to suffer. 
+
+
+# References
+
+## R-package
+
+@R-plotly
+@R-countrycode
+@R-parsetR
+@R-ggalluvial
+@R-themes360info
+@R-scales
+@R-forcats
+@R-knitr
+@R-kableExtra
+@R-gridExtra
+@R-tidyverse
+@R-patchwork
+@hooker_2022
+@missing_migrants
+@counter_trafficking
+
+
+
+
+
+
+
 
 
 
