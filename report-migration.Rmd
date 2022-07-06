@@ -52,7 +52,6 @@ The report attempts to utilize the use of visualisations and in corporation of [
 For missing migrants, the visualisation attempts to give an overview on:
 
 -	The missing and dead migrants overtime across regions
--	Death rate and cause of death
 
 For the aspect in human trafficking, the visualisation aims to discover:
 
@@ -83,10 +82,9 @@ t1 <- tibble(
 
 t1 %>%
   kable(caption = "Variable description for Missing Migrants data") %>%
-  column_spec(1, bold = TRUE, background = "lightblue") %>%
+  column_spec(1, bold = TRUE) %>%
   kable_styling() %>%
   kable_paper() %>%
-  scroll_box(width = "800px", height = "300px") %>%
   footnote(general = "Data collected from Missing Migrants Project")
 ```
 
@@ -105,10 +103,9 @@ t2 <- tibble(
 
 t2 %>%
   kable(caption = "Variable description for Human Trafficking data") %>%
-  column_spec(1, bold = TRUE, background = "lightblue") %>%
+  column_spec(1, bold = TRUE) %>%
   kable_styling() %>%
   kable_paper() %>%
-  scroll_box(width = "800px", height = "300px") %>%
   footnote(general = "Data collected from Coutner Trafficking Data Collaborative")
 ```
 
@@ -249,7 +246,7 @@ mhmp1
 
 ### The routes of trafficking
 
-Human trafficking routes are visualised using the Sankey diagram, the aim of this visualisation is to explore the routes that most victims are trafficked to. At the first stage of creating the visualisation, an interactive html widget package called `parsetR` is attempted, however, this html widget has a lot of restriction in customizing the visualisation. The title and variable names cannot be modified, furthermore, it is not allowed to add 360 theme to align with the 360info’s style of visualisation. Therefore, `gg_alluvium` and `gg_stratum` is suggested by [James](https://github.com/jimjam-slam) to visualise the human trafficking routes.
+Human trafficking routes are visualised using the Sankey diagram, the aim of this visualisation is to explore the routes that most victims are trafficked to. At the first stage of creating the visualisation, an interactive html widget package called `parsetR` is attempted, however, this html widget has a lot of restriction in customizing the visualisation. The title and variable names cannot be modified, furthermore, it is not allowed to add 360 theme to align with the 360info’s style of visualisation. Therefore, `gg_alluvium` and `gg_stratum` is suggested by [James](https://github.com/jimjam-slam) to visualise the human trafficking routes, with opacity set to indicate the number of victims transported in each trafficking route.
 
 
 ```{r}
@@ -642,35 +639,6 @@ mhmp1
 ```
 
 
-
-
-
-
-### 2. Death rate and cause of death
-
-```{r}
-mg2 <- mg %>%
-  select(`Incident year`,
-         `Website Date`,
-         `Region of Incident`,
-         `Total Number of Dead and Missing`,
-         `Number of Survivors`,
-         `Cause of Death`
-         )
-
-mg2 <- mg2 %>%
-  mutate(`Total Number of Migrants` = `Total Number of Dead and Missing` + `Number of Survivors`,
-         `Death rate` = round((`Total Number of Dead and Missing`/`Total Number of Migrants`)*100, 2))
-```
-
-
-```{r}
-mg2 %>%
-  ggplot(aes(x = `Website Date`,
-             y = `Death rate`,
-             colour = `Region of Incident`)) +
-  geom_line()
-```
 
 
 ## Human Trafficking
