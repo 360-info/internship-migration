@@ -3,7 +3,7 @@ title: "Migrants' Life into the Desperation"
 author: "Ruimin Lin - 28757599"
 date: '2022-07-03'
 output:
-  rmarkdown::html_document:
+  bookdown::html_document2:
     toc: true
     toc_float: true
     theme: united
@@ -15,8 +15,13 @@ bibliography: references.bib
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(plotly)
 library(countrycode)
+# devtools::install_github("timelyportfolio/parsetR")
+# or
+# remotes::install_github("timelyportfolio/parsetR")
 library(parsetR)
 library(ggalluvial)
+# https://fonts.google.com/specimen/Libre+Franklin the font must be downloaded and installed to use themes360info package
+# remotes::install_github("360-info/themes360info")
 library(themes360info)
 library(scales)
 library(ggtext)
@@ -26,6 +31,7 @@ library(kableExtra)
 library(gridExtra)
 library(tidyverse)
 library(patchwork)
+library(bookdown)
 ```
 
 # Abstract
@@ -119,7 +125,7 @@ For both datasets, due to the specificity and sensitivity of the target group in
 
 ### The missing and dead migrants overtime across regions
 
-The purpose of this visualisation is to offer an immediately view of the number of dead and missing migrants overtime and across regions. Therefore, a heatmap is created at the first instance. Audiences could easily capture the region with darkest colour to be the most dangerous region that many migrants lost their lives in. However, a single heatmap is not enough as it does not have the ability to tell audience the number changing overtime. Therefore, two marginal plots are created in corporate with the heatmap as shown below, that fulfills the requirement of offering the audience a brief overview of the situation overtime and across  regions.
+The purpose of this visualisation is to offer an immediately view of the number of dead and missing migrants overtime and across regions. Therefore, a heatmap  \@ref(fig:heatmapv1) is created at the first instance. Audiences could easily capture the region with darkest colour to be the most dangerous region that many migrants lost their lives in. However, a single heatmap is not enough as it does not have the ability to tell audience the number changing overtime. Therefore, two marginal plots are created in corporate with the heatmap as shown \@ref(fig:heatmapv2), that fulfills the requirement of offering the audience a brief overview of the situation overtime and across  regions.
 
 ```{r}
 mg <- read_csv("data/Missing_Migrants_Global_Figures_allData.csv")
@@ -137,7 +143,6 @@ mg1 <- mg %>%
          `Region of Incident`,
          `Total Number of Dead and Missing`)
 
-# warning summarize
 mg1 <- mg1 %>%
   group_by(`Incident year`, `Region of Incident`) %>%
   summarise(`Total Number of Dead and Missing` = sum(`Total Number of Dead and Missing`)) %>%
@@ -168,7 +173,7 @@ mg1b <- mg1 %>%
 ```
 
 
-```{r}
+```{r heatmapv1, fig.cap="Heat map version 1"}
 mhmv1 <- mg1 %>%
   mutate(`Incident year` = as.character(`Incident year`)) %>%
   ggplot(aes(x = `Incident year`,
@@ -184,7 +189,7 @@ mhmv1
 ```
 
 
-```{r}
+```{r heatmapv2, fig.cap="Heat map version2"}
 mhm1 <- mg1 %>%
   mutate(`Incident year` = as.character(`Incident year`)) %>%
   ggplot(aes(x = `Incident year`,
@@ -246,7 +251,7 @@ mhmp1
 
 ### The routes of trafficking
 
-Human trafficking routes are visualised using the Sankey diagram, the aim of this visualisation is to explore the routes that most victims are trafficked to. At the first stage of creating the visualisation, an interactive html widget package called `parsetR` is attempted, however, this html widget has a lot of restriction in customizing the visualisation. The title and variable names cannot be modified, furthermore, it is not allowed to add 360 theme to align with the 360info’s style of visualisation. Therefore, `gg_alluvium` and `gg_stratum` is suggested by [James](https://github.com/jimjam-slam) to visualise the human trafficking routes, with opacity set to indicate the number of victims transported in each trafficking route.
+Human trafficking routes are visualised using the Sankey diagram, the aim of this visualisation is to explore the routes that most victims are trafficked to. At the first stage of creating the visualisation, an interactive html widget package called `parsetR` is attempted, however, this html widget has a lot of restriction in customizing the visualisation \@ref(fig:routesv1). The title and variable names cannot be modified, furthermore, it is not allowed to add 360 theme to align with the 360info’s style of visualisation. Therefore, `gg_alluvium` and `gg_stratum` is suggested by [James](https://github.com/jimjam-slam) to visualise the human trafficking routes, with opacity set to indicate the number of victims transported in each trafficking route \@ref(fig:routesv2).
 
 
 ```{r}
@@ -289,7 +294,7 @@ ht1b <- ht1b %>%
 ```
 
 
-```{r}
+```{r routesv1, fig.cap="Routes version 1"}
 parset(ht1b, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'), 
        value = htmlwidgets::JS("function(d){return d.counts}"), 
        tension = 0.5)
@@ -355,7 +360,7 @@ victimflow <- ht1b %>%
 ```
 
 
-```{r, echo=FALSE, out.width="80%"}
+```{r routesv2, echo=FALSE, out.width="80%", fig.cap="Routes v2"}
 knitr::include_graphics("out/figures/victimflows.png")
 ```
 
@@ -365,7 +370,7 @@ knitr::include_graphics("out/figures/victimflows.png")
 ### Demographic features of trafficking victim
 
 To obtain a better understanding on victim’s features in relation to the type of exploits they suffered, a bar chart is considered at the first instance. 5 versions of bar charts are created before the final output of this visualisation is obtained. During the process of improving the visualisations, several methods of demonstrating the counts allocated to each victim group are attempted. At the later stage of developing the bar chart, percentages are in use to demonstrate the proportion of victims gender group that falls under the type of exploits they suffered.
-Therefore, bar chart version 5 is created, and an error is quickly identified since the percentage bar does not add up to 1 for each type of exploits. The error occurred are the result of misusing `position = “dodge”` in `geom_col`. At the final stage, a well-polished stacked bar chart is created, with percentages showing the proportion of gender group within each category of type of exploits. In addition, under each type of exploits, the actual number of each category is labelled to avoid the possibility of misleading the audience, since the amount of reported victims in each type of exploit are quite distinct.
+Therefore, bar chart version 5 is created, and an error is quickly identified since the percentage bar does not add up to 1 for each type of exploits. The error occurred are the result of misusing `position = “dodge”` in `geom_col`. At the final stage, a well-polished stacked bar chart is created \@ref(fig:featurefinal), with percentages showing the proportion of gender group within each category of type of exploits. In addition, under each type of exploits, the actual number of each category is labelled to avoid the possibility of misleading the audience, since the amount of reported victims in each type of exploit are quite distinct.
 
 
 ```{r}
@@ -456,7 +461,7 @@ fp5 <- htEx1 %>%
 
 ```
 
-```{r}
+```{r }
 htEx1 <- htEx1 %>%
   mutate(genderGroup = 
            paste(gender, tolower(majorityStatus),
@@ -608,6 +613,10 @@ fp6a <- htEx1 %>%
 ```{r}
 grid.arrange(fp1,fp2,nrow = 2)
 grid.arrange(fp3,fp4,nrow = 2)
+```
+
+
+```{r featurefinal, fig.cap="Victim Feature final version"}
 grid.arrange(fp5,fp6a, nrow = 2, heights = c(1, 2))
 ```
 
@@ -630,11 +639,11 @@ The method is also similar for percentage across regions.
 
 **(number of dead and missing migrants in one region/total number of dead and missing migrants across all regions) * 100**
 
-From the heatmap, the major region of migrant found dead and missing can be easily located at a glance, by looking at where all darker coloured tiles sit, which is Mediterranean. Taking up 46.3% of overall dead and missing migrants across the regions. Followed by Northern Africa (13.9%), North America (6%) and South-eastern Asia (5.9%). On the other hand, the year of tragedy can also be identified with the marginal plot at the top, which is the year of 2022. Taking up 17% of the overall dead and missing migrants from 2014 to 2022, followed by 2016 at 14%.
+From the heatmap \@ref(fig:dheatmap), the major region of migrant found dead and missing can be easily located at a glance, by looking at where all darker coloured tiles sit, which is Mediterranean. Taking up 46.3% of overall dead and missing migrants across the regions. Followed by Northern Africa (13.9%), North America (6%) and South-eastern Asia (5.9%). On the other hand, the year of tragedy can also be identified with the marginal plot at the top, which is the year of 2022. Taking up 17% of the overall dead and missing migrants from 2014 to 2022, followed by 2016 at 14%.
 
 As a result, Mediterranean are identified as the most dangerous region since thousands of migrants lost its life when taking the risk to travel across the boarders each year.
 
-```{r}
+```{r dheatmap, fig.cap="Heat map"}
 mhmp1
 ```
 
@@ -648,9 +657,9 @@ mhmp1
 
 ### 1. The Routes of Trafficking
 
-The Sankey diagram gives an overview on the most common routes of victims being trafficked from reported cases 2002 to 2019, the opacity of the flow between `Country of Citizenship` and `Country of Exploitation` indicates number of victims. The result provided by the data is unanticipated as the route for most reported case of human trafficking victim is domestic. All reported case in Moldova, US, Philippines, Cambodia and Ghana are domestic. The majority of reported cases in Ukraine are domestic, with a small amount of cases flow to Russia. For across boarder trafficking, Russia is the main country of exploitation, with victims from Ukraine and Belarus. 
+The Sankey diagram \@ref(fig:dflow) gives an overview on the most common routes of victims being trafficked from reported cases 2002 to 2019, the opacity of the flow between `Country of Citizenship` and `Country of Exploitation` indicates number of victims. The result provided by the data is unanticipated as the route for most reported case of human trafficking victim is domestic. All reported case in Moldova, US, Philippines, Cambodia and Ghana are domestic. The majority of reported cases in Ukraine are domestic, with a small amount of cases flow to Russia. For across boarder trafficking, Russia is the main country of exploitation, with victims from Ukraine and Belarus. 
 
-```{r, echo=FALSE, out.width="80%"}
+```{r dflow, echo=FALSE, out.width="80%", fig.cap="Victim flows"}
 knitr::include_graphics("out/figures/victimflows.png")
 ```
 
@@ -661,11 +670,11 @@ knitr::include_graphics("out/figures/victimflows.png")
 
 ### 2. Features of Victims
 
-A stacked bar chart is applied to demonstrate the demographic distribution of victims of all reported human trafficking cases from 2002 to 2019. Not surprisingly, Female adult are the main group of victims across most type of exploits recorded by the dataset. Sexual exploitation is the largest category of exploitation with 15989 reported cases fall under this category, followed by forced labour.  
+A stacked bar chart \@ref(fig:dfeature) is applied to demonstrate the demographic distribution of victims of all reported human trafficking cases from 2002 to 2019. Not surprisingly, Female adult are the main group of victims across most type of exploits recorded by the dataset. Sexual exploitation is the largest category of exploitation with 15989 reported cases fall under this category, followed by forced labour.  
 Of all reported cases of sexual exploitation, around 60% of female adult are identified, following by female and male minor under sexual exploitation category. A small number of female adult and minor suffers from combination of sexual and labour exploitation. On the other hand, Male adult and male minor takes the majority, about 70% of all reported cases of forced labour.
 
 
-```{r, echo=FALSE, out.width="80%"}
+```{r dfeature, echo=FALSE, out.width="80%", fig.cap="Victim Distribution"}
 knitr::include_graphics("out/figures/victimdistributions.png")
 ```
 
@@ -701,6 +710,7 @@ For furure analysis, it is expected that more incidents and cases can be found a
 @R-gridExtra
 @R-tidyverse
 @R-patchwork
+@bookdown
 @hooker_2022
 @missing_migrants
 @counter_trafficking
