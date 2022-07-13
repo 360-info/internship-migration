@@ -3,11 +3,11 @@
 Visualisations created focusing on human trafficking and missing migrants.
 Graphics are in the [`out`](./out) folder.
 
-![Heatmap](out/figures/migrantsheatmap.png)
+![Code in analysis-missing_migrants.qmd](out/figures/migrantsheatmap.png)
 
-![Flowmap](out/figures/victimflows.png)
+![Code in analysis-human_trafficking.qmd](out/figures/victimflows.png)
 
-![Distribution](out/figures/victimdistributions.png)
+![Code in analysis-human_trafficking.qmd](out/figures/victimdistributions.png)
 
 
 ## Use + Remix rights
