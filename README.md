@@ -1,6 +1,14 @@
-# 360info report template
+# Migration's Changing Face
 
-What's this report all about? What kind of charts or analysis have we done?
+Visualisations created focusing on human trafficking and missing migrants.
+Graphics are in the [`out`](./out) folder.
+
+![Heatmap](out/figures/migrantsheatmap.png)
+
+![Flowmap](out/figures/victimflows.png)
+
+![Distribution](out/figures/victimdistributions.png)
+
 
 ## Use + Remix rights
 
