@@ -1,6 +1,7 @@
 # Migration's Changing Face
 
-Visualisations created focusing on human trafficking and missing migrants.
+The project attempts to raise the awareness of illegal and trafficked migrants for the public on International Refugees Day. Visualisations on migrants will be focused on discovering two aspects, missing migrants, and human trafficking overtime. 
+
 Graphics are in the [`out`](./out) folder.
 
 ![Code in analysis-missing_migrants.qmd](out/figures/migrantsheatmap.png)
@@ -20,7 +21,9 @@ These charts, as well as the analyses that underpin them, are available under a 
 
 Data in these charts comes from:
 
-* Data sources here (with links!)
+- [Missing Migrants Project](https://missingmigrants.iom.int/) 
+- [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc) 
+
 
 **Please attribute 360info and the data sources when you use and remix these visualisations.**
 
@@ -47,3 +50,4 @@ quarto render --output-dir docs *.qmd
 <!-- replace `report-template` with the name of this repo in the link below  -->
 
 If you find any problems with our analysis or charts, please feel free to [create an issue](https://github.com/360-info/report-template/issues/new)!
+

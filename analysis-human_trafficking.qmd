@@ -3,6 +3,9 @@ title: "analysis - human trafficking"
 author: "Ruimin Lin - 28757599"
 code-fold: true
 theme: style/article.scss
+execute:
+  message: false
+  warning: false
 ---
 
 ```{r setup, include=FALSE}
@@ -22,6 +25,7 @@ library(forcats)
 
 -   The human trafficking data is obtained from [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc).
 
+Reminder: Most of the code shown below is to demonstrate the derivation of final output. If interested in the code for final output only, please check section @sec-finald and @sec-finalf.
 
 ```{r}
 ct <- read_csv("data/The Global Dataset 14 Apr 2020.csv")
@@ -144,6 +148,9 @@ ggplotly(testp)
 
 ```
 
+### Final Output: Distribution of Victims {#sec-finald}
+
+
 ```{r}
 ctEx1 <- ctEx1 %>%
   mutate(genderGroup = 
@@ -260,10 +267,6 @@ ct2a
 
 
 
-
-
-
-
 ```{r}
 ct2b <- ct2a %>%
   group_by(citizenship, CountryOfExploitation)%>%
@@ -281,6 +284,8 @@ parset(ct2b1, dimensions = c('CountryOfOrigin', 'CountryOfExploitation'),
 
 ```
 
+
+### Final Output: Victim Flow {#sec-finalf}
 
 ```{r}
 t1 <- grobTree(textGrob("Country of\nCitizenship",
@@ -426,7 +431,4 @@ save_360plot(fd, "out/figures/victimflows.png",
 ```
 
 
-```{r}
-
-```
 

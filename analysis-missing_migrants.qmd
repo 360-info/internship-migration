@@ -3,6 +3,9 @@ title: "analysis-missing_migrants"
 author: "Ruimin Lin - 28757599"
 code-fold: true
 theme: style/article.scss
+execute:
+  message: false
+  warning: false
 ---
 
 ```{r setup, include=FALSE}
@@ -14,6 +17,7 @@ library(patchwork)
 ```
 
 - The missing migrants data is obtained from [Missing Migrants Project](https://missingmigrants.iom.int/).
+
 
 ```{r}
 missingMG <- read_csv("data/Missing_Migrants_Global_Figures_allData.csv")
@@ -146,8 +150,8 @@ mp2 <- missingMG1b %>%
   guides(alpha="none") +
     labs(title = toupper("Dead and Missing Migrants"),
        subtitle = paste(
-         "Number of dead and missing migrants from reported",
-         "incidents 2014-2022",
+         "Number of dead and missing migrants from reported incidents",
+         "2014-2022",
          sep = "\n"))
 
 layoutm <- "
