@@ -2,14 +2,11 @@
 
 The project attempts to raise the awareness of illegal and trafficked migrants for the public on International Refugees Day. Visualisations on migrants will be focused on discovering two aspects, missing migrants, and human trafficking overtime. 
 
-Graphics are in the [`out`](./out) folder.
-
 ![Code in analysis-missing_migrants.qmd](out/figures/migrantsheatmap.png)
 
 ![Code in analysis-human_trafficking.qmd](out/figures/victimflows.png)
 
 ![Code in analysis-human_trafficking.qmd](out/figures/victimdistributions.png)
-
 
 ## Use + Remix rights
 
@@ -24,8 +21,11 @@ Data in these charts comes from:
 - [Missing Migrants Project](https://missingmigrants.iom.int/) 
 - [Counter Trafficking Data Collaborative](https://www.ctdatacollaborative.org/dataset/resource/511adcb7-b1a2-4cc7-bf2f-0960d43a49cc) 
 
-
 **Please attribute 360info and the data sources when you use and remix these visualisations.**
+
+## Get the graphics
+
+If you just need the versions of the graphics we've produced, they're in the [`out/figures` folder](./out/figures).
 
 ## Reproduce the analysis
 
