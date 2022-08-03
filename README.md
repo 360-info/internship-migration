@@ -29,25 +29,25 @@ Data in these charts comes from:
 
 ## Reproduce the analysis
 
-We typically publish graphics using [Quarto](https://quarto.org) notebooks, which can be found in the`*.qmd` files. Quarto allows reproducible analysis and visualisation to be done in a mix of languages, but we typically use [R](https://r-project,.org) and [Observable JS](https://observablehq.com/@observablehq/observables-not-javascript).
+Theis analysis is done in [R](https://r-project,.org). To reproduce it, you'll need to:
 
-You'll need to:
-- [Download and install Quarto](https://quarto.org/docs/get-started)
 - [Download the install R](https://www.r-project.org)
 - Satisfy the R package dependencies. In R:
   * Install the [`renv`](https://rstudio.github.io/renv) package with `install.packages("renv")`,
   * Then run `renv::restore()` to install the R package dependencies.
   * (For problems satisfying R package dependencies, refer to [Quarto's documentation on virtual environments](https://quarto.org/docs/projects/virtual-environments.html).)
 
-Now, render the `.qmd` files to the `/docs` directory with:
+Now, render the `.rmd` files to the `/docs` directory with:
 
 ```sh
-quarto render --output-dir docs *.qmd
+rmarkdown::render("report-migration.Rmd")
 ```
+
+The figures are generated to the [`out/figures` folder](./out/figures). You can 
 
 ## Help
 
 <!-- replace `report-template` with the name of this repo in the link below  -->
 
-If you find any problems with our analysis or charts, please feel free to [create an issue](https://github.com/360-info/report-template/issues/new)!
+If you find any problems with our analysis or charts, please feel free to [create an issue](https://github.com/360-info/internship-migration/issues/new)!
 
